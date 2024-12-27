@@ -11,14 +11,25 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::create('app_roles', function (Blueprint $table) {
+            $table->id();
+            $table->string('name'); // label
+            $table->string('codename');
+            $table->string('role_type'); // user role | survey team role
+            $table->timestamps();
+        });
+
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->uuid('user_id')->unique();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
+            $table->foreignId('role_id');
+            $table->integer('status')->comment('0 = inactivate, 1 = activate, 2 = deleted, 3 = uncomplete')->default(1);
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
@@ -42,6 +53,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('roles');
         Schema::dropIfExists('users');
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');

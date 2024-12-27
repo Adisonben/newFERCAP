@@ -4,13 +4,14 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -18,9 +19,11 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'user_id',
+        'role_id',
         'email',
         'password',
+        'status'
     ];
 
     /**
@@ -44,5 +47,21 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function userDetail()
+    {
+        return $this->hasOne(AppUserInfo::class);
+    }
+
+    public function userRole()
+    {
+        return $this->hasOne(AppRole::class, 'id', 'role_id');
+    }
+
+    protected $appends = ['full_name'];
+    public function getFullNameAttribute()
+    {
+        return $this->userDetail ? $this->userDetail->first_name . ' ' . $this->userDetail->last_name : '';
     }
 }
