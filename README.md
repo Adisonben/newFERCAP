@@ -15,3 +15,12 @@
 - React v18.2.x
 - Tailwind CSS v3.2.x
 - PostgreSQL v17.0
+
+
+## Install
+1. `composer i`
+2. `npm i`
+3. `php artisan migrate`
+4. `php artisan db:seed`
+
+default admin username is **admin@iddrives** and password is **iddrivesadmin**
