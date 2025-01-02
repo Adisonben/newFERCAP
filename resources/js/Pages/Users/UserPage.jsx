@@ -1,10 +1,50 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head } from "@inertiajs/react";
-import { Button, Stack } from "@mui/material";
-import { Edit, Delete, PowerSettingsNew } from "@mui/icons-material";
+import { Head, useForm } from "@inertiajs/react";
+import { Button } from "@mui/material";
+import { Add } from "@mui/icons-material";
+import UserModal from "./Partials/UserModal";
+import RespAlert from "@/Components/RespAlert";
+import UsersDataTable from "./Partials/UsersDataTable";
 
-const UserPage = () => {
+const UserPage = ({ resFormBack, users }) => {
+    const [creatingUser, setCreatingUser] = useState(false);
+    const [showAlert, setShowAlert] = useState(false);
+
+    useEffect(() => {
+        if (resFormBack?.success) {
+            setShowAlert(true);
+        }
+        if (resFormBack?.error) {
+            setShowAlert(true);
+        }
+    }, [resFormBack?.timestamp]); // Use timestamp to trigger effect
+
+    const createUser = () => {
+        setCreatingUser(true);
+    };
+
+    const closeModal = () => {
+        setCreatingUser(false);
+        reset();
+    };
+
+    const { data, setData, reset, post, processing, errors } = useForm({
+        role: "",
+        email: "",
+        password: "",
+    });
+
+    const storeUser = (e) => {
+        e.preventDefault();
+        post(route("users.store"), {
+            preserveScroll: true,
+            onFinish: () => {
+                closeModal();
+            },
+        });
+    };
+    console.log(errors);
     return (
         <AuthenticatedLayout
             header={
@@ -14,79 +54,39 @@ const UserPage = () => {
             }
         >
             <Head title="Users" />
+            <RespAlert
+                showAlert={showAlert}
+                resp={resFormBack}
+                handleCloseAlert={() => setShowAlert(false)}
+            />
             <div className="sm:px-6 lg:px-8">
                 <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
                     <div className="p-6 text-gray-900 dark:text-gray-100">
-                        <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 border">
-                            <thead className="bg-gray-700 dark:bg-gray-700">
-                                <tr>
-                                    <th
-                                        scope="col"
-                                        className="px-6 py-3 text-left text-xs font-medium text-gray-50 uppercase tracking-wider dark:text-gray-300"
-                                    >
-                                        Title
-                                    </th>
-                                    <th
-                                        scope="col"
-                                        className="px-6 py-3 text-left text-xs font-medium text-gray-50 uppercase tracking-wider dark:text-gray-300"
-                                    >
-                                        Ordering
-                                    </th>
-                                    <th
-                                        scope="col"
-                                        className="px-6 py-3 text-left text-xs font-medium text-gray-50 uppercase tracking-wider dark:text-gray-300"
-                                    >
-                                        Status
-                                    </th>
-                                    <th
-                                        scope="col"
-                                        className="px-6 py-3 text-left text-xs font-medium text-gray-50 uppercase tracking-wider dark:text-gray-300"
-                                    >
-                                        Actions
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
-                                <tr>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">
-                                        Protocol 1
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                        100
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                        Active
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                        <Stack spacing={1} direction="row">
-                                            <Button
-                                                variant="contained"
-                                                startIcon={<Edit />}
-                                                size="small"
-                                            >
-                                                Edit
-                                            </Button>
-                                            <Button
-                                                variant="contained"
-                                                startIcon={<Delete />}
-                                                color="error"
-                                                size="small"
-                                            >
-                                                Delete
-                                            </Button>
-                                            <Button
-                                                variant="contained"
-                                                startIcon={<PowerSettingsNew />}
-                                                color="success"
-                                                size="small"
-                                            >
-                                                Disable
-                                            </Button>
-                                        </Stack>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div className="flex justify-between mb-4">
+                            <p className="text-xl font-bold">
+                                Users Table
+                            </p>
+                            <Button
+                                variant="contained"
+                                color="success"
+                                size="small"
+                                startIcon={<Add />}
+                                onClick={createUser}
+                            >
+                                Create
+                            </Button>
+                            <UserModal
+                                show={creatingUser}
+                                onClose={closeModal}
+                                onSubmit={storeUser}
+                                data={data}
+                                setData={(field, value) =>
+                                    setData(field, value)
+                                }
+                                errors={errors}
+                            />
+                        </div>
+                        <UsersDataTable usersList={users} />
                     </div>
                 </div>
             </div>

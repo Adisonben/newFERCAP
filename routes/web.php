@@ -39,12 +39,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/fercap-groups/toggle-status/{id}', [FercapGroupController::class, 'toggleStatus'])->name('fercap-groups.toogle-status');
 
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::post('/users', [UserController::class, 'store'])->name('users.store');
 });
 
 // route for api
 Route::prefix('api')->middleware('auth')->group(function () {
     Route::get('/select-user-list', [ApiController::class, 'getSelectUser']);
     Route::get('/group-user-list/{id}', [ApiController::class, 'groupUserList']);
+    Route::get('/roles', [ApiController::class, 'getRoles']);
 });
 
 

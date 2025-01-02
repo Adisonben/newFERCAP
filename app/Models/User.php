@@ -23,7 +23,7 @@ class User extends Authenticatable
         'role_id',
         'email',
         'password',
-        'status'
+        'status'  // 0 = inactivate, 1 = activate, 2 = deleted, 3 = uncomplete
     ];
 
     /**
@@ -59,9 +59,14 @@ class User extends Authenticatable
         return $this->hasOne(AppRole::class, 'id', 'role_id');
     }
 
-    protected $appends = ['full_name'];
+    protected $appends = ['full_name', 'role_name'];
     public function getFullNameAttribute()
     {
         return $this->userDetail ? $this->userDetail->first_name . ' ' . $this->userDetail->last_name : '';
+    }
+
+    public function getRoleNameAttribute()
+    {
+        return $this->userRole ? $this->userRole->name : '';
     }
 }
