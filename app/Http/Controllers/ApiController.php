@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\SelectUserResource;
+use App\Models\AppCountry;
 use App\Models\AppFercapGroupHasUser;
 use App\Models\AppRole;
 use App\Models\User;
@@ -18,6 +19,11 @@ class ApiController extends Controller
     public function groupUserList($id) {
         $groupUsers = AppFercapGroupHasUser::where('group_id', $id)->get()->pluck('user_id');
         return $groupUsers;
+    }
+
+    public function getCountries() {
+        $countries = AppCountry::all()->pluck('name');
+        return $countries;
     }
 
     public function getRoles() {

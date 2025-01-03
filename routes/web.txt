@@ -5,7 +5,6 @@ use App\Http\Controllers\FercapGroupController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProtocolTypeController;
 use App\Http\Controllers\RecognitionController;
-use App\Http\Controllers\RecognitionController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -48,11 +47,6 @@ Route::middleware('auth')->group(function () {
 
     // Recognitions routes
     Route::resource('recognitions', RecognitionController::class);
-
-    // Recognitions routes
-    Route::resource('recognitions', RecognitionController::class);
-    Route::get('/users', [UserController::class, 'index'])->name('users.index');
-    Route::post('/users', [UserController::class, 'store'])->name('users.store');
 });
 
 // API routes
@@ -60,8 +54,6 @@ Route::prefix('api')->middleware('auth')->group(function () {
     Route::get('/select-user-list', [ApiController::class, 'getSelectUser']);
     Route::get('/group-user-list/{id}', [ApiController::class, 'groupUserList']);
     Route::get('/countries', [ApiController::class, 'getCountries']);
-    Route::get('/countries', [ApiController::class, 'getCountries']);
-    Route::get('/roles', [ApiController::class, 'getRoles']);
 });
 
 

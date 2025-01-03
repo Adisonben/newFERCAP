@@ -1,3 +1,7 @@
 input[type='text']:focus, textarea:focus {
     box-shadow: unset !important;
 }
+
+input[type='number']:focus, textarea:focus {
+    box-shadow: unset !important;
+}

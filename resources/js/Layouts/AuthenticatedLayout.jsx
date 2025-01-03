@@ -59,7 +59,7 @@ export default function AuthenticatedLayout(props) {
             <List>
                 {userMenu.map((menu, index) => (
                     <ListItem key={index} disablePadding>
-                        <Link href="/" className="w-full">
+                        <Link href={menu["path"]} className="w-full">
                             <ListItemButton>
                                 <ListItemIcon>{menu["icon"]}</ListItemIcon>
                                 <ListItemText primary={menu["label"]} />

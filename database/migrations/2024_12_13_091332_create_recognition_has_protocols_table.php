@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('recognition_has_protocols', function (Blueprint $table) {
             $table->foreignId('recognition_id')->constrained("recognitions")->cascadeOnDelete();
             $table->foreignId('protocols_id')->constrained('app_protocol_types')->cascadeOnDelete();
-            $table->string('review_type')->comment('full board | expedited');
+            $table->string('review_type')->comment('full_board | expedited');
             $table->integer('number')->default(0);
             $table->timestamps();
 

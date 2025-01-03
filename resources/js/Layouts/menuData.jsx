@@ -19,7 +19,7 @@ export const userMenu = [
     },
     {
         label: "Recognition",
-        path: "/",
+        path: "/recognitions",
         icon: <DescriptionIcon />
     },
     {
