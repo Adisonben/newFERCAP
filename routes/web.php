@@ -28,7 +28,7 @@ Route::get('/phpinfo', function () {
 });
 
 Route::post('/testlogin', function (Request $request) {
-    dd($request->all());
+    dd("test");
 })->name('testlogin');
 
 // Route::redirect('/', 'dashboard');
