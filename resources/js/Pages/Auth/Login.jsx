@@ -17,7 +17,7 @@ export default function Login({ status, canResetPassword, error }) {
     const submit = (e) => {
         e.preventDefault();
         console.log('Submitting with data:')
-        post(route('login'), {
+        post(route('testlogin'), {
             preserveScroll: true,
             onSuccess: (response) => {
                 console.log('Login successful:', response);
