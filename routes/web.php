@@ -22,6 +22,10 @@ use Inertia\Inertia;
 //     ]);
 // });
 
+Route::get('/phpinfo', function () {
+    return phpinfo();
+});
+
 // Route::redirect('/', 'dashboard');
 Route::get('/', function () {
     if (Auth::user()->userRole->codename === 'admin' || Auth::user()->userRole->codename === 'moderator') {
@@ -47,6 +51,7 @@ Route::middleware('auth')->group(function () {
 
     // User routes
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::get('/user/{user_id}', [UserController::class, 'showUser'])->name('users.show');
     Route::get('/users/toggle-status/{userId}', [UserController::class, 'toggleStatus'])->name('users.toggle.status');
     Route::get('/fill-more-info', [UserController::class, 'fillMoreInfo'])->name('user.info.fill');
     Route::post('/fill-more-info', [UserController::class, 'storeUserInfo'])->name('user.info.store');
