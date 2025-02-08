@@ -4,7 +4,7 @@ import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import GuestLayout from '@/Layouts/GuestLayout';
-import { Head, Link, useForm } from '@inertiajs/react';
+import { Head, Link, useForm, router } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
 
 export default function Login({ status, canResetPassword, error }) {
@@ -17,9 +17,10 @@ export default function Login({ status, canResetPassword, error }) {
     const submit = (e) => {
         e.preventDefault();
 
-        post(route('login'), {
-            onFinish: () => reset('password'),
-        });
+        router.post(route('login'), data);
+        // post(route('login'), {
+        //     onFinish: () => reset('password'),
+        // });
     };
 
     return (
