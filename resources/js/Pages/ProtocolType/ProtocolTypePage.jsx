@@ -3,7 +3,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, useForm } from "@inertiajs/react";
 import { Button, Snackbar, Alert } from "@mui/material";
 import { Add } from "@mui/icons-material";
-import ProtocolDataTable from "./Partials/protocolDataTable";
+import ProtocolDataTable from "./Partials/ProtocolDataTable";
 import ProtocolModal from "./Partials/ProtocolModal";
 import PermissionGuard from "@/Components/PermissionGuard";
 
