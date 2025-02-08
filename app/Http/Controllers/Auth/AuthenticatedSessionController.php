@@ -31,26 +31,19 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request): RedirectResponse
     {
         $request->authenticate();
-        $request->session()->regenerate();
+        if (Auth::user()->status !== 0) {
+            $request->session()->regenerate();
 
-        if ($request->user()->status === 3) {
-            return redirect()->intended(route('user.info.fill', absolute: false));
+            if ($request->user()->status === 3) {
+                return redirect()->intended(route('user.info.fill', absolute: false));
+            } else {
+                return redirect()->intended(route('home', absolute: false));
+            }
         } else {
-            return redirect()->intended(route('home', absolute: false));
+            Auth::guard('web')->logout();
+
+            return redirect()->route('login')->with('error', 'Your account has been disabled.');
         }
-        // if (Auth::user()->status !== 0) {
-        //     $request->session()->regenerate();
-
-        //     if ($request->user()->status === 3) {
-        //         return redirect()->intended(route('user.info.fill', absolute: false));
-        //     } else {
-        //         return redirect()->intended(route('home', absolute: false));
-        //     }
-        // } else {
-        //     Auth::guard('web')->logout();
-
-        //     return redirect()->route('login')->with('error', 'Your account has been disabled.');
-        // }
     }
 
     /**

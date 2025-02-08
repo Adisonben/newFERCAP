@@ -44,11 +44,6 @@ class HandleInertiaRequests extends Middleware
             ],
             'csrf_token' => csrf_token(),
             'role_name' => $request->user() ? optional($request->user()->userRole)->codename : null,
-            'ziggy' => [
-                'url' => $request->url(),
-                'port' => $request->getPort(),
-                'defaults' => config('ziggy.defaults'),
-            ],
         ];
     }
 }

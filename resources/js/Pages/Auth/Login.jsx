@@ -4,7 +4,7 @@ import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import GuestLayout from '@/Layouts/GuestLayout';
-import { Head, Link, useForm, usePage, } from '@inertiajs/react';
+import { Head, Link, useForm } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
 
 export default function Login({ status, canResetPassword, error }) {
@@ -16,15 +16,9 @@ export default function Login({ status, canResetPassword, error }) {
 
     const submit = (e) => {
         e.preventDefault();
-        console.log('Submitting with data:')
+
         post(route('login'), {
-            preserveScroll: true,
-            onSuccess: (response) => {
-                console.log('Login successful.');
-            },
-            onError: (errors) => {
-                console.log('Login errors:', errors);
-            },
+            onFinish: () => reset('password'),
         });
     };
 
@@ -92,7 +86,7 @@ export default function Login({ status, canResetPassword, error }) {
                     )}
                 </div>
 
-                <div className="mt-4 flex items-center justify-end gap-x-2">
+                <div className="mt-4 flex items-center justify-end">
                     {/* {canResetPassword && (
                         <Link
                             href={route('password.request')}
@@ -101,15 +95,8 @@ export default function Login({ status, canResetPassword, error }) {
                             Forgot your password?
                         </Link>
                     )} */}
-                    <p>Don't have an account yet ?</p>
-                    <Link
-                        href={route("register")}
-                        className="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
-                    >
-                        Sign up
-                    </Link>
-                    <p>or</p>
-                    <PrimaryButton type="submit" className="ms-4" disabled={processing}>
+
+                    <PrimaryButton className="ms-4" disabled={processing}>
                         Log in
                     </PrimaryButton>
                 </div>
