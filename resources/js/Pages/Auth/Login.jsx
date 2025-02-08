@@ -17,14 +17,10 @@ export default function Login({ status, canResetPassword, error }) {
     const submit = (e) => {
         e.preventDefault();
         console.log('Submitting with data:')
-        post(route('testlogin'), {
+        post(route('login'), {
             preserveScroll: true,
             onSuccess: (response) => {
-                console.log('Login successful:', response);
-                // Force a reload if needed
-                if (response?.props?.auth?.user) {
-                    window.location.href = route('home');
-                }
+                console.log('Login successful.');
             },
             onError: (errors) => {
                 console.log('Login errors:', errors);
@@ -113,16 +109,9 @@ export default function Login({ status, canResetPassword, error }) {
                         Sign up
                     </Link>
                     <p>or</p>
-                    <PrimaryButton className="ms-4" disabled={processing}>
+                    <PrimaryButton type="submit" className="ms-4" disabled={processing}>
                         Log in
                     </PrimaryButton>
-                    <Link
-                        href={route("testlogin")}
-                        className="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
-                    >
-                        test login
-                    </Link>
-
                 </div>
             </form>
         </GuestLayout>
