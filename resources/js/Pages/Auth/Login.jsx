@@ -16,18 +16,29 @@ export default function Login({ status, canResetPassword, error }) {
 
     const submit = (e) => {
         e.preventDefault();
+        console.log('Submitting with data:')
         post(route('login'), {
             preserveScroll: true,
-            onFinish: () => {
-                console.log("Submit onFinish");
-                reset('password')
+            onBefore: () => console.log('Before request'),
+            onStart: () => console.log('Request started'),
+            onProgress: (progress) => console.log('Request progress:', progress),
+            onFinish: () => console.log('Request finished'),
+            onSuccess: (page) => {
+                console.log('Success response:', page)
+                console.log('New auth state:', props.auth)
             },
-            onSuccess: () => {
-                console.log("Submit onSuccess");
-            },
-            onError: () => {
-                console.log("Submit onError");
-            }
+            onError: (errors) => console.log('Validation errors:', errors),
+            onCancel: () => console.log('Request cancelled'),
+            // onFinish: () => {
+            //     console.log("Submit onFinish");
+            //     reset('password')
+            // },
+            // onSuccess: () => {
+            //     console.log("Submit onSuccess");
+            // },
+            // onError: (errors) => {
+            //     console.log('Login errors:', errors)
+            // },
         });
     };
 
