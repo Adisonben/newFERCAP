@@ -8,7 +8,6 @@ import { Head, Link, useForm, usePage } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
 
 export default function Login({ status, canResetPassword, error }) {
-    const { props } = usePage();
     const { data, setData, post, processing, errors, reset } = useForm({
         email: '',
         password: '',
@@ -20,26 +19,16 @@ export default function Login({ status, canResetPassword, error }) {
         console.log('Submitting with data:')
         post(route('login'), {
             preserveScroll: true,
-            onBefore: () => console.log('Before request'),
-            onStart: () => console.log('Request started'),
-            onProgress: (progress) => console.log('Request progress:', progress),
-            onFinish: () => console.log('Request finished'),
-            onSuccess: (page) => {
-                console.log('Success response:', page)
-                console.log('New auth state:', props.auth)
+            onSuccess: (response) => {
+                console.log('Login successful:', response);
+                // Force a reload if needed
+                if (response?.props?.auth?.user) {
+                    window.location.href = route('home');
+                }
             },
-            onError: (errors) => console.log('Validation errors:', errors),
-            onCancel: () => console.log('Request cancelled'),
-            // onFinish: () => {
-            //     console.log("Submit onFinish");
-            //     reset('password')
-            // },
-            // onSuccess: () => {
-            //     console.log("Submit onSuccess");
-            // },
-            // onError: (errors) => {
-            //     console.log('Login errors:', errors)
-            // },
+            onError: (errors) => {
+                console.log('Login errors:', errors);
+            },
         });
     };
 
