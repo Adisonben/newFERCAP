@@ -9,6 +9,7 @@ use App\Http\Controllers\RecognitionController;
 use App\Http\Controllers\SurveyController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -25,6 +26,10 @@ use Inertia\Inertia;
 Route::get('/phpinfo', function () {
     return phpinfo();
 });
+
+Route::post('/testlogin', function (Request $request) {
+    dd($request->all());
+})->name('testlogin');
 
 // Route::redirect('/', 'dashboard');
 Route::get('/', function () {
