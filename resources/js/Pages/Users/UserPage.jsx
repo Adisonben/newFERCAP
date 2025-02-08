@@ -6,8 +6,9 @@ import { Add } from "@mui/icons-material";
 import UserModal from "./Partials/UserModal";
 import RespAlert from "@/Components/RespAlert";
 import UsersDataTable from "./Partials/UsersDataTable";
+import PermissionGuard from "@/Components/PermissionGuard";
 
-const UserPage = ({ resFormBack, users }) => {
+const UserPage = ({ resFormBack, users, role_name }) => {
     const [creatingUser, setCreatingUser] = useState(false);
     const [showAlert, setShowAlert] = useState(false);
 
@@ -44,7 +45,6 @@ const UserPage = ({ resFormBack, users }) => {
             },
         });
     };
-    console.log(errors);
     return (
         <AuthenticatedLayout
             header={
@@ -63,30 +63,34 @@ const UserPage = ({ resFormBack, users }) => {
                 <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
                     <div className="p-6 text-gray-900 dark:text-gray-100">
                         <div className="flex justify-between mb-4">
-                            <p className="text-xl font-bold">
-                                Users Table
-                            </p>
-                            <Button
-                                variant="contained"
-                                color="success"
-                                size="small"
-                                startIcon={<Add />}
-                                onClick={createUser}
+                            <p className="text-xl font-bold">Users Table</p>
+                            <PermissionGuard
+                                userRole={role_name}
+                                permissionName="add_user"
                             >
-                                Create
-                            </Button>
-                            <UserModal
-                                show={creatingUser}
-                                onClose={closeModal}
-                                onSubmit={storeUser}
-                                data={data}
-                                setData={(field, value) =>
-                                    setData(field, value)
-                                }
-                                errors={errors}
-                            />
+                                <Button
+                                    variant="contained"
+                                    color="success"
+                                    size="small"
+                                    startIcon={<Add />}
+                                    onClick={createUser}
+                                >
+                                    Create
+                                </Button>
+                                <UserModal
+                                    show={creatingUser}
+                                    onClose={closeModal}
+                                    onSubmit={storeUser}
+                                    data={data}
+                                    setData={(field, value) =>
+                                        setData(field, value)
+                                    }
+                                    errors={errors}
+                                    processing={processing}
+                                />
+                            </PermissionGuard>
                         </div>
-                        <UsersDataTable usersList={users} />
+                        <UsersDataTable usersList={users} role_name={role_name} />
                     </div>
                 </div>
             </div>

@@ -18,6 +18,7 @@ const GroupModal = ({
     isEdit = false,
     selectedList = [],
     setSellectedList,
+    processing
 }) => {
     return (
         <Modal show={show} onClose={onClose}>
@@ -48,11 +49,11 @@ const GroupModal = ({
                 </div>
 
                 <div className="mt-6 flex justify-end">
-                    <SecondaryButton onClick={onClose}>Cancel</SecondaryButton>
+                    <SecondaryButton onClick={onClose} disabled={processing}>Cancel</SecondaryButton>
 
                     <PrimaryButton
                         className="ms-3"
-                        // disabled={processing}
+                        disabled={processing}
                     >
                         Save
                     </PrimaryButton>

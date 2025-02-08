@@ -4,7 +4,9 @@ namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Inertia\Inertia;
 use Inertia\Middleware;
+use Throwable;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -34,12 +36,14 @@ class HandleInertiaRequests extends Middleware
             ...parent::share($request),
             'auth' => [
                 'user' => $request->user(),
+                'role_name' => $request->user() ? optional($request->user()->userRole)->codename : null,
             ],
             'flash' => [
                 'error' => Session::get('error'),
                 'success' => Session::get('success'),
             ],
             'csrf_token' => csrf_token(),
+            'role_name' => $request->user() ? optional($request->user()->userRole)->codename : null,
         ];
     }
 }

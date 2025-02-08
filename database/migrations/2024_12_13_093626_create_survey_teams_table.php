@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained("users")->cascadeOnDelete();
             $table->foreignId('role_id')->nullable();
             $table->boolean('status')->default(1)->comment('0=withdrawn, 1=attended');
-            $table->foreignId('selected_by')->constrained("users")->nullOnDelete();
+            $table->foreignId('selected_by')->nullable()->constrained("users")->nullOnDelete();
             $table->timestamps();
         });
     }

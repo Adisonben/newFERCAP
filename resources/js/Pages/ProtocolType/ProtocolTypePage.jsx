@@ -5,8 +5,9 @@ import { Button, Snackbar, Alert } from "@mui/material";
 import { Add } from "@mui/icons-material";
 import ProtocolDataTable from "./Partials/protocolDataTable";
 import ProtocolModal from "./Partials/ProtocolModal";
+import PermissionGuard from "@/Components/PermissionGuard";
 
-const ProtocolTypePage = ({ success, error, protocolTypes }) => {
+const ProtocolTypePage = ({ success, error, protocolTypes, role_name }) => {
     const [creatingProtocolType, setCreatingProtocolType] = useState(false);
     const [showSuccessAlert, setShowSuccessAlert] = useState(false);
     const [showErrorAlert, setShowErrorAlert] = useState(false);
@@ -107,27 +108,33 @@ const ProtocolTypePage = ({ success, error, protocolTypes }) => {
                             <p className="text-xl font-bold">
                                 Protocol Types Table
                             </p>
-                            <Button
-                                variant="contained"
-                                color="success"
-                                size="small"
-                                startIcon={<Add />}
-                                onClick={createProtocolType}
+                            <PermissionGuard
+                                userRole={role_name}
+                                permissionName="add_protocol_type"
                             >
-                                Create
-                            </Button>
-                            <ProtocolModal
-                                show={creatingProtocolType}
-                                onClose={closeModal}
-                                onSubmit={storeProtocolType}
-                                data={data}
-                                setData={(field, value) =>
-                                    setData(field, value)
-                                }
-                                errors={errors}
-                            />
+                                <Button
+                                    variant="contained"
+                                    color="success"
+                                    size="small"
+                                    startIcon={<Add />}
+                                    onClick={createProtocolType}
+                                >
+                                    Create
+                                </Button>
+                                <ProtocolModal
+                                    show={creatingProtocolType}
+                                    onClose={closeModal}
+                                    onSubmit={storeProtocolType}
+                                    data={data}
+                                    setData={(field, value) =>
+                                        setData(field, value)
+                                    }
+                                    errors={errors}
+                                    processing={processing}
+                                />
+                            </PermissionGuard>
                         </div>
-                        <ProtocolDataTable protocolTypes={protocolTypes} />
+                        <ProtocolDataTable protocolTypes={protocolTypes} role_name={role_name} />
                     </div>
                 </div>
             </div>

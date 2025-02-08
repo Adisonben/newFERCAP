@@ -4,8 +4,9 @@ import { Edit, Delete, PowerSettingsNew } from "@mui/icons-material";
 import ProtocolModal from "./ProtocolModal";
 import { useForm, router } from "@inertiajs/react";
 import DeleteModal from "@/Components/DeleteModal";
+import PermissionGuard from "@/Components/PermissionGuard";
 
-const ProtocolDataTable = ({ protocolTypes }) => {
+const ProtocolDataTable = ({ protocolTypes, role_name }) => {
     const [showModal, setShowModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [deleteProtocolTypeId, setDeleteProtocolTypeId] = useState(null);
@@ -30,12 +31,12 @@ const ProtocolDataTable = ({ protocolTypes }) => {
     const handleDeleteShow = (protocolType) => {
         setDeleteProtocolTypeId(protocolType.id);
         setShowDeleteModal(true);
-    }
+    };
 
     const handleDeleteClose = () => {
         setDeleteProtocolTypeId(null);
         setShowDeleteModal(false);
-    }
+    };
 
     const handleDeleteSubmit = (e) => {
         e.preventDefault();
@@ -47,8 +48,7 @@ const ProtocolDataTable = ({ protocolTypes }) => {
                 setShowDeleteModal(false);
             },
         });
-
-    }
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -73,7 +73,7 @@ const ProtocolDataTable = ({ protocolTypes }) => {
         router.get(`/protocol-types/toggle-status/${protocolTypeId}`, {
             preserveScroll: true,
         });
-    }
+    };
 
     return (
         <>
@@ -132,34 +132,59 @@ const ProtocolDataTable = ({ protocolTypes }) => {
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                     <Stack spacing={1} direction="row">
-                                        <Button
-                                            variant="contained"
-                                            startIcon={<Edit />}
-                                            size="small"
-                                            onClick={() =>
-                                                handleEdit(protocolType)
-                                            }
+                                        <PermissionGuard
+                                            userRole={role_name}
+                                            permissionName="edit_protocol_type"
                                         >
-                                            Edit
-                                        </Button>
-                                        <Button
-                                            variant="contained"
-                                            startIcon={<Delete />}
-                                            color="error"
-                                            size="small"
-                                            onClick={() => handleDeleteShow(protocolType)}
+                                            <Button
+                                                variant="contained"
+                                                startIcon={<Edit />}
+                                                size="small"
+                                                onClick={() =>
+                                                    handleEdit(protocolType)
+                                                }
+                                            >
+                                                Edit
+                                            </Button>
+                                        </PermissionGuard>
+                                        <PermissionGuard
+                                            userRole={role_name}
+                                            permissionName="delete_protocol_type"
                                         >
-                                            Delete
-                                        </Button>
-                                        <Button
-                                            variant="contained"
-                                            startIcon={<PowerSettingsNew />}
-                                            color="info"
-                                            size="small"
-                                            onClick={() => toggleStatus(protocolType.id)}
+                                            <Button
+                                                variant="contained"
+                                                startIcon={<Delete />}
+                                                color="error"
+                                                size="small"
+                                                onClick={() =>
+                                                    handleDeleteShow(
+                                                        protocolType
+                                                    )
+                                                }
+                                            >
+                                                Delete
+                                            </Button>
+                                        </PermissionGuard>
+                                        <PermissionGuard
+                                            userRole={role_name}
+                                            permissionName="disable_protocol_type"
                                         >
-                                            Disable
-                                        </Button>
+                                            <Button
+                                                variant="contained"
+                                                startIcon={<PowerSettingsNew />}
+                                                color="info"
+                                                size="small"
+                                                onClick={() =>
+                                                    toggleStatus(
+                                                        protocolType.id
+                                                    )
+                                                }
+                                            >
+                                                {protocolType.status
+                                                ? "Disabled"
+                                                : "Active"}
+                                            </Button>
+                                        </PermissionGuard>
                                     </Stack>
                                 </td>
                             </tr>
@@ -178,11 +203,10 @@ const ProtocolDataTable = ({ protocolTypes }) => {
                 onClose={handleClose}
                 onSubmit={handleSubmit}
                 data={data}
-                setData={(field, value) =>
-                    setData(field, value)
-                }
+                setData={(field, value) => setData(field, value)}
                 errors={errors}
                 isEdit={!!editingProtocolType}
+                processing={processing}
             />
             <DeleteModal
                 show={showDeleteModal}

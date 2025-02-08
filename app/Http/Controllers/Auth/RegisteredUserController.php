@@ -50,10 +50,10 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         Auth::login($user);
-        if ($request->user()->status === 3) {
+        if (Auth::user()->status === 3) {
             return redirect(route('user.info.fill', absolute: false));
         } else {
-            return redirect(route('dashboard', absolute: false));
+            return redirect('/');
         }
     }
 }

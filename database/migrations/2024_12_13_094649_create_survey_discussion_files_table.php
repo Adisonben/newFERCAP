@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('survey_discussion_files', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('file_id')->constrained("uploaded_files")->nullOnDelete();
+            $table->foreignId('file_id')->nullable()->constrained("uploaded_files")->nullOnDelete();
             $table->foreignId('room_id')->constrained("survey_discussion_rooms")->cascadeOnDelete();
             $table->foreignId('comment_id')->constrained("survey_discussion_comments")->cascadeOnDelete();
             $table->integer('status')->comment('0=reject, 1=simple, 2=approved')->default(1);

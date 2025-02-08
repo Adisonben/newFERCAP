@@ -69,4 +69,9 @@ class User extends Authenticatable
     {
         return $this->userRole ? $this->userRole->name : '';
     }
+
+    public function fercapGroups()
+    {
+        return $this->belongsToMany(AppFercapGroup::class, 'app_fercap_group_has_users', 'user_id', 'group_id')->withPivot('status');
+    }
 }

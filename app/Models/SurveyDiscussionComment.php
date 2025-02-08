@@ -15,4 +15,14 @@ class SurveyDiscussionComment extends Model
         'content',
         'type'
     ];
+
+    public function getUser()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function getFile()
+    {
+        return $this->hasOne(SurveyDiscussionFile::class, 'comment_id')->with('getFileData')->select('id', 'comment_id', 'file_id', 'status');
+    }
 }

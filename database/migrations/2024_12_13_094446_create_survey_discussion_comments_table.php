@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('survey_discussion_comments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('room_id')->constrained("survey_discussion_rooms")->cascadeOnDelete();
-            $table->foreignId('created_by')->constrained("users")->nullOnDelete();
+            $table->foreignId('created_by')->nullable()->constrained("users")->nullOnDelete();
             $table->text('content');
             $table->string('type')->comment('text || file')->default('text');
             $table->timestamps();

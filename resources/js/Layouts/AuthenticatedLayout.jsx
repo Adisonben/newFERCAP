@@ -23,6 +23,7 @@ import Typography from "@mui/material/Typography";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import { userMenu, adminMenu } from "./menuData";
 import { grey } from "@mui/material/colors";
+import PermissionGuard from "@/Components/PermissionGuard";
 
 const drawerWidth = 240;
 
@@ -31,6 +32,7 @@ export default function AuthenticatedLayout(props) {
     const [mobileOpen, setMobileOpen] = useState(false);
     const [isClosing, setIsClosing] = useState(false);
     const user = usePage().props.auth.user;
+    const role_name = usePage().props.auth.role_name;
 
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
@@ -58,27 +60,39 @@ export default function AuthenticatedLayout(props) {
             <Divider />
             <List>
                 {userMenu.map((menu, index) => (
-                    <ListItem key={index} disablePadding>
-                        <Link href={menu["path"]} className="w-full">
-                            <ListItemButton>
-                                <ListItemIcon>{menu["icon"]}</ListItemIcon>
-                                <ListItemText primary={menu["label"]} />
-                            </ListItemButton>
-                        </Link>
-                    </ListItem>
+                    <PermissionGuard
+                        key={index}
+                        permissionName={menu["perm"]}
+                        userRole={role_name}
+                    >
+                        <ListItem disablePadding>
+                            <Link href={menu["path"]} className="w-full">
+                                <ListItemButton>
+                                    <ListItemIcon>{menu["icon"]}</ListItemIcon>
+                                    <ListItemText primary={menu["label"]} />
+                                </ListItemButton>
+                            </Link>
+                        </ListItem>
+                    </PermissionGuard>
                 ))}
             </List>
             <Divider />
             <List>
                 {adminMenu.map((menu, index) => (
-                    <Link href={menu["path"]} key={index}>
-                        <ListItem disablePadding>
-                            <ListItemButton>
-                                <ListItemIcon>{menu["icon"]}</ListItemIcon>
-                                <ListItemText primary={menu["label"]} />
-                            </ListItemButton>
-                        </ListItem>
-                    </Link>
+                    <PermissionGuard
+                        key={index}
+                        permissionName={menu["perm"]}
+                        userRole={role_name}
+                    >
+                        <Link href={menu["path"]}>
+                            <ListItem disablePadding>
+                                <ListItemButton>
+                                    <ListItemIcon>{menu["icon"]}</ListItemIcon>
+                                    <ListItemText primary={menu["label"]} />
+                                </ListItemButton>
+                            </ListItem>
+                        </Link>
+                    </PermissionGuard>
                 ))}
             </List>
         </div>
@@ -109,7 +123,12 @@ export default function AuthenticatedLayout(props) {
                             <div className="flex">
                                 <div className="flex gap-2 shrink-0 items-center">
                                     <Link href="/">
-                                        <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
+                                        {/* <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" /> */}
+                                        <img
+                                            src="/images/fercapminilogo.png"
+                                            alt=""
+                                            className="h-full max-h-10 fill-current text-gray-500"
+                                        />
                                     </Link>
                                     {header}
                                 </div>
@@ -215,7 +234,7 @@ export default function AuthenticatedLayout(props) {
                 className="min-h-screen flex flex-col"
             >
                 <Toolbar />
-                <Box sx={{ p: 3 }}>{children}</Box>
+                <Box sx={{ p: 3, height: "100%" }}>{children}</Box>
                 <Box component="footer" className="mt-auto p-3 bg-white">
                     <p className="text-center sm:text-start">
                         © FERCAP cPanel {new Date().getFullYear()}

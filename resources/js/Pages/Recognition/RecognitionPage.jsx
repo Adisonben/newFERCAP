@@ -1,12 +1,23 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link } from "@inertiajs/react";
 import RespAlert from "@/Components/RespAlert";
-import RecognitionsTable from "./Partials/RecognitionsTable";
+import RecognitionsTable from "./Partials/Table/RecognitionsTable";
 import { Button } from "@mui/material";
 import { Add } from "@mui/icons-material";
+import PermissionGuard from "@/Components/PermissionGuard";
 
-const RecognitionPage = () => {
+const RecognitionPage = ({ resFormBack, recognitions, role_name }) => {
+    const [showAlert, setShowAlert] = useState(false);
+    useEffect(() => {
+        if (resFormBack?.error) {
+            setShowAlert(true);
+        }
+        if (resFormBack?.success) {
+            setShowAlert(true);
+        }
+    }, [resFormBack?.timestamp]); // Use timestamp to trigger effect
+
     return (
         <AuthenticatedLayout
             header={
@@ -16,11 +27,11 @@ const RecognitionPage = () => {
             }
         >
             <Head title="Recognitions Table" />
-            {/* <RespAlert
+            <RespAlert
                 showAlert={showAlert}
                 resp={resFormBack}
                 handleCloseAlert={() => setShowAlert(false)}
-            /> */}
+            />
             <div className="sm:px-6 lg:px-8">
                 <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
                     <div className="p-6 text-gray-900 dark:text-gray-100">
@@ -28,34 +39,27 @@ const RecognitionPage = () => {
                             <p className="text-xl font-bold">
                                 Recognitions Table
                             </p>
-                            <Link
-                                href={route('recognitions.create')}
-                                className="text-white"
+                            <PermissionGuard
+                                permissionName={"add_recognition"}
+                                userRole={role_name}
                             >
-                                <Button
-                                    variant="contained"
-                                    color="success"
-                                    size="small"
-                                    startIcon={<Add />}
-                                    // onClick={createProtocolType}
+                                <Link
+                                    href={route("recognitions.create")}
+                                    className="text-white"
                                 >
-                                    Create
-                                </Button>
-                            </Link>
-                            {/* <GroupModal
-                                show={creatingGroup}
-                                onClose={closeModal}
-                                onSubmit={storeGroup}
-                                data={data}
-                                setData={(field, value) =>
-                                    setData(field, value)
-                                }
-                                errors={errors}
-                                selectedList={selectedUsers}
-                                setSellectedList={setSelectedUsers}
-                            /> */}
+                                    <Button
+                                        variant="contained"
+                                        color="success"
+                                        size="small"
+                                        startIcon={<Add />}
+                                        // onClick={createProtocolType}
+                                    >
+                                        Create
+                                    </Button>
+                                </Link>
+                            </PermissionGuard>
                         </div>
-                        <RecognitionsTable />
+                        <RecognitionsTable recognitions={recognitions} role_name={role_name} />
                     </div>
                 </div>
             </div>

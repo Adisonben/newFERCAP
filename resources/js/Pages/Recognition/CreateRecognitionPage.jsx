@@ -1,13 +1,21 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, useForm } from "@inertiajs/react";
+import { Head, useForm, Link } from "@inertiajs/react";
 import InfoForm from "./Partials/Forms/InfoForm";
 import MemberForm from "./Partials/Forms/MemberForm";
 import OtherForm from "./Partials/Forms/OtherForm";
 import ProtocolForm from "./Partials/Forms/ProtocolForm";
 import { Button } from "@mui/material";
+import RespAlert from "@/Components/RespAlert";
 
-const CreateRecognitionPage = () => {
+const CreateRecognitionPage = ({ resFormBack }) => {
+    const [showAlert, setShowAlert] = useState(false);
+    useEffect(() => {
+        if (resFormBack?.error) {
+            setShowAlert(true);
+        }
+    }, [resFormBack?.timestamp]); // Use timestamp to trigger effect
+
     const { data, setData, reset, post, processing, errors } = useForm({
         // General Information
         institute: "",
@@ -32,12 +40,27 @@ const CreateRecognitionPage = () => {
         protocol_board_meeting: "",
         avg_members_per_meeting: "",
         ethical_challenges: "",
+        common_type: {
+            full_board: {}, // store {id: number}
+            expedited: {},
+        },
         // Other
         propose_survey_start_date: "",
         propose_survey_end_date: "",
-        expire_date: "",
-        status: "",
+        rec_files: {
+            members: null,
+            staffs: null,
+            sops: null,
+            accessments: null,
+        },
     });
+
+    const submit = (e) => {
+        e.preventDefault();
+        post(route("recognitions.store"), {
+            preserveScroll: true,
+        });
+    };
 
     return (
         <AuthenticatedLayout
@@ -48,8 +71,13 @@ const CreateRecognitionPage = () => {
             }
         >
             <Head title="Create Recognitions" />
+            <RespAlert
+                showAlert={showAlert}
+                resp={resFormBack}
+                handleCloseAlert={() => setShowAlert(false)}
+            />
             <div>
-                <form action="">
+                <form onSubmit={submit}>
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800 border">
                             <div className="p-6 text-gray-900 dark:text-gray-100">
@@ -59,7 +87,11 @@ const CreateRecognitionPage = () => {
                                     </p>
                                 </div>
                                 <div>
-                                    <InfoForm data={data} setData={setData} />
+                                    <InfoForm
+                                        data={data}
+                                        setData={setData}
+                                        errors={errors}
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -73,7 +105,11 @@ const CreateRecognitionPage = () => {
                                     </div>
 
                                     <div>
-                                        <ProtocolForm />
+                                        <ProtocolForm
+                                            data={data}
+                                            setData={setData}
+                                            errors={errors}
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -85,7 +121,10 @@ const CreateRecognitionPage = () => {
                                         </p>
                                     </div>
                                     <div>
-                                        <MemberForm />
+                                        <MemberForm
+                                            data={data}
+                                            setData={setData}
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -97,23 +136,33 @@ const CreateRecognitionPage = () => {
                                         </p>
                                     </div>
                                     <div>
-                                        <OtherForm />
+                                        <OtherForm
+                                            data={data}
+                                            setData={setData}
+                                            errors={errors}
+                                        />
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div className="flex justify-center gap-4 mt-4">
+                        <Link href={route("recognitions.index")}>
+                            <Button
+                                type="button"
+                                variant="contained"
+                                color="error"
+                                disabled={processing}
+                                // onClick={createProtocolType}
+                            >
+                                Cancel
+                            </Button>
+                        </Link>
                         <Button
-                            variant="contained"
-                            color="error"
-                            // onClick={createProtocolType}
-                        >
-                            Cancel
-                        </Button>
-                        <Button
+                            type="submit"
                             variant="contained"
                             color="success"
+                            disabled={processing}
                             // onClick={createProtocolType}
                         >
                             Save

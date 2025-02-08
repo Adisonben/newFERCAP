@@ -15,6 +15,7 @@ const ProtocolModal = ({
     errors,
     title = "Protocol Type",
     isEdit = false,
+    processing
 }) => {
     return (
         <Modal show={show} onClose={onClose}>
@@ -55,13 +56,13 @@ const ProtocolModal = ({
                 </div>
 
                 <div className="mt-6 flex justify-end">
-                    <SecondaryButton onClick={onClose}>
+                    <SecondaryButton onClick={onClose} disabled={processing}>
                         Cancel
                     </SecondaryButton>
 
                     <PrimaryButton
                         className="ms-3"
-                        // disabled={processing}
+                        disabled={processing}
                     >
                         Save
                     </PrimaryButton>

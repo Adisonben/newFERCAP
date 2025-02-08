@@ -33,7 +33,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('app_fercap_groups');
         Schema::dropIfExists('app_fercap_group_has_users');
+        Schema::dropIfExists('app_fercap_groups');
     }
 };

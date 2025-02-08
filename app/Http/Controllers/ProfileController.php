@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\AppCountry;
+use App\Models\AppNationality;
+use App\Models\AppUserInfo;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -18,9 +21,15 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): Response
     {
+        $nationalities = AppNationality::all();
+        $countries = AppCountry::all();
+        $userInfoData = AppUserInfo::where('user_id', Auth::user()->id)->first();
         return Inertia::render('Profile/Edit', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
+            'nationalities' => $nationalities,
+            'countries' => $countries,
+            'userInfoData' => $userInfoData
         ]);
     }
 

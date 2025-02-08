@@ -16,6 +16,7 @@ const UserModal = ({
     errors,
     title = "User",
     isEdit = false,
+    processing,
 }) => {
     const [roleData, setRoleData] = React.useState(null);
 
@@ -89,11 +90,11 @@ const UserModal = ({
                 </div>
 
                 <div className="mt-6 flex justify-end">
-                    <SecondaryButton onClick={onClose}>Cancel</SecondaryButton>
+                    <SecondaryButton onClick={onClose} disabled={processing}>Cancel</SecondaryButton>
 
                     <PrimaryButton
                         className="ms-3"
-                        // disabled={processing}
+                        disabled={processing}
                     >
                         Save
                     </PrimaryButton>

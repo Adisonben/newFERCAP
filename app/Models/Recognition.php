@@ -37,6 +37,10 @@ class Recognition extends Model
         'propose_survey_start_date',
         'propose_survey_end_date',
         'expire_date',
-        'status'
+        'status' // 0=disable, 1=active, 2=complete, 3=reject, default=0
     ];
+
+    public function protocols() {
+        return $this->belongsToMany(AppProtocolType::class, 'recognition_has_protocols', 'recognition_id', 'protocols_id')->withPivot('review_type', 'number');
+    }
 }

@@ -7,8 +7,9 @@ import { Add } from "@mui/icons-material";
 import GroupModal from "./Partials/GroupModal";
 import RespAlert from "@/Components/RespAlert";
 import UserSelection from "./Partials/UserSelection";
+import PermissionGuard from "@/Components/PermissionGuard";
 
-const FercapGroupPage = ({ resFormBack, fercapGroups }) => {
+const FercapGroupPage = ({ resFormBack, fercapGroups, role_name }) => {
     const [creatingGroup, setCreatingGroup] = useState(false);
     const [selectedUsers, setSelectedUsers] = useState([]);
     const [showAlert, setShowAlert] = useState(false);
@@ -22,7 +23,7 @@ const FercapGroupPage = ({ resFormBack, fercapGroups }) => {
         }
     }, [resFormBack?.timestamp]); // Use timestamp to trigger effect
 
-    const createProtocolType = () => {
+    const createFercapGrop = () => {
         setCreatingGroup(true);
     };
 
@@ -67,29 +68,32 @@ const FercapGroupPage = ({ resFormBack, fercapGroups }) => {
                             <p className="text-xl font-bold">
                                 FERCAP Group Table
                             </p>
-                            <Button
-                                variant="contained"
-                                color="success"
-                                size="small"
-                                startIcon={<Add />}
-                                onClick={createProtocolType}
-                            >
-                                Create
-                            </Button>
-                            <GroupModal
-                                show={creatingGroup}
-                                onClose={closeModal}
-                                onSubmit={storeGroup}
-                                data={data}
-                                setData={(field, value) =>
-                                    setData(field, value)
-                                }
-                                errors={errors}
-                                selectedList={selectedUsers}
-                                setSellectedList={setSelectedUsers}
-                            />
+                            <PermissionGuard userRole={role_name} permissionName="add_fercap_group">
+                                <Button
+                                    variant="contained"
+                                    color="success"
+                                    size="small"
+                                    startIcon={<Add />}
+                                    onClick={createFercapGrop}
+                                >
+                                    Create
+                                </Button>
+                                <GroupModal
+                                    show={creatingGroup}
+                                    onClose={closeModal}
+                                    onSubmit={storeGroup}
+                                    data={data}
+                                    setData={(field, value) =>
+                                        setData(field, value)
+                                    }
+                                    errors={errors}
+                                    selectedList={selectedUsers}
+                                    setSellectedList={setSelectedUsers}
+                                    processing={processing}
+                                />
+                            </PermissionGuard>
                         </div>
-                        <GroupDataTable fercapGroups={fercapGroups} />
+                        <GroupDataTable fercapGroups={fercapGroups} role_name={role_name} />
                     </div>
                 </div>
             </div>

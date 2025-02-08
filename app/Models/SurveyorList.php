@@ -12,6 +12,11 @@ class SurveyorList extends Model
     protected $fillable = [
         'survey_id',
         'user_id',
-        'status'
+        'status' // 0=canceled, 1=joined
     ];
+
+    public function getUser()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

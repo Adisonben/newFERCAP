@@ -4,13 +4,15 @@ import { Edit, Delete, PowerSettingsNew, Info } from "@mui/icons-material";
 import GroupModal from "./GroupModal";
 import { useForm, router } from "@inertiajs/react";
 import DeleteModal from "@/Components/DeleteModal";
+import PermissionGuard from "@/Components/PermissionGuard";
 
-const GroupDataTable = ({ fercapGroups }) => {
+const GroupDataTable = ({ fercapGroups, role_name }) => {
     const [showModal, setShowModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [deleteGroupId, setDeleteGroupId] = useState(null);
     const [selectedUsers, setSelectedUsers] = useState([]);
     const [anchorEl, setAnchorEl] = useState(null);
+    const [activePopover, setActivePopover] = useState(null);
 
     const { data, setData, reset, put, processing, errors } = useForm({
         name: "",
@@ -81,7 +83,16 @@ const GroupDataTable = ({ fercapGroups }) => {
         });
     };
 
-    const idPopover = open ? "simple-popover" : undefined;
+    // Popover
+    const handleOpenPopover = (event, popoverId) => {
+        setAnchorEl(event.currentTarget);
+        setActivePopover(popoverId);
+    };
+
+    const handleClosePopover = () => {
+        setAnchorEl(null);
+        setActivePopover(null);
+    };
     const openPopover = Boolean(anchorEl);
 
     return (
@@ -126,18 +137,16 @@ const GroupDataTable = ({ fercapGroups }) => {
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">
                                     <Button
                                         variant="text"
-                                        aria-describedby={idPopover}
-                                        onClick={(event) =>
-                                            setAnchorEl(event.currentTarget)
-                                        }
+                                        aria-describedby={activePopover === `pop${index}` ? `popover${index}` : undefined}
+                                        onClick={(event) => handleOpenPopover(event, `pop${index}`)}
                                     >
                                         {fercapGroup.user_list.length} Members
                                     </Button>
                                     <Popover
-                                        id={idPopover}
-                                        open={openPopover}
+                                        id={`popover${index}`}
+                                        open={open && activePopover === `pop${index}`}
                                         anchorEl={anchorEl}
-                                        onClose={() => setAnchorEl(null)}
+                                        onClose={handleClosePopover}
                                         anchorOrigin={{
                                             vertical: "top",
                                             horizontal: "right",
@@ -148,11 +157,17 @@ const GroupDataTable = ({ fercapGroups }) => {
                                         }}
                                     >
                                         <div className="p-2">
-                                            <p className="font-bold">Member List</p>
+                                            <p className="font-bold">
+                                                Member List
+                                            </p>
                                             <ul className="list-decimal pl-5 grid grid-cols-2 gap-x-6">
-                                                {fercapGroup.user_list.map((full_name, index) => (
-                                                    <li key={index}>{full_name}</li>
-                                                ))}
+                                                {fercapGroup.user_list.map(
+                                                    (full_name, index) => (
+                                                        <li key={index}>
+                                                            {full_name}
+                                                        </li>
+                                                    )
+                                                )}
                                             </ul>
                                         </div>
                                     </Popover>
@@ -174,46 +189,59 @@ const GroupDataTable = ({ fercapGroups }) => {
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                     <Stack spacing={1} direction="row">
-                                        <Button
-                                            variant="contained"
-                                            startIcon={<Edit />}
-                                            size="small"
-                                            onClick={() =>
-                                                handleEdit(fercapGroup)
-                                            }
+                                        <PermissionGuard
+                                            userRole={role_name}
+                                            permissionName="edit_fercap_group"
                                         >
-                                            Edit
-                                        </Button>
-                                        <Button
-                                            variant="contained"
-                                            startIcon={<Delete />}
-                                            color="error"
-                                            size="small"
-                                            onClick={() =>
-                                                handleDeleteShow(fercapGroup.id)
-                                            }
+                                            <Button
+                                                variant="contained"
+                                                startIcon={<Edit />}
+                                                size="small"
+                                                onClick={() =>
+                                                    handleEdit(fercapGroup)
+                                                }
+                                            >
+                                                Edit
+                                            </Button>
+                                        </PermissionGuard>
+
+                                        <PermissionGuard
+                                            userRole={role_name}
+                                            permissionName="delete_fercap_group"
                                         >
-                                            Delete
-                                        </Button>
-                                        <Button
-                                            variant="contained"
-                                            startIcon={<PowerSettingsNew />}
-                                            color="success"
-                                            size="small"
-                                            onClick={() =>
-                                                toggleStatus(fercapGroup.id)
-                                            }
+                                            <Button
+                                                variant="contained"
+                                                startIcon={<Delete />}
+                                                color="error"
+                                                size="small"
+                                                onClick={() =>
+                                                    handleDeleteShow(
+                                                        fercapGroup.id
+                                                    )
+                                                }
+                                            >
+                                                Delete
+                                            </Button>
+                                        </PermissionGuard>
+
+                                        <PermissionGuard
+                                            userRole={role_name}
+                                            permissionName="disable_fercap_group"
                                         >
-                                            Disable
-                                        </Button>
-                                        {/* <Button
-                                            variant="contained"
-                                            startIcon={<Info />}
-                                            color="info"
-                                            size="small"
-                                        >
-                                            Info
-                                        </Button> */}
+                                            <Button
+                                                variant="contained"
+                                                startIcon={<PowerSettingsNew />}
+                                                color="success"
+                                                size="small"
+                                                onClick={() =>
+                                                    toggleStatus(fercapGroup.id)
+                                                }
+                                            >
+                                                {fercapGroup.status
+                                                    ? "Disabled"
+                                                    : "Active"}
+                                            </Button>
+                                        </PermissionGuard>
                                     </Stack>
                                 </td>
                             </tr>
@@ -237,6 +265,7 @@ const GroupDataTable = ({ fercapGroups }) => {
                 isEdit={true}
                 selectedList={selectedUsers}
                 setSellectedList={setSelectedUsers}
+                processing={processing}
             />
             <DeleteModal
                 show={showDeleteModal}

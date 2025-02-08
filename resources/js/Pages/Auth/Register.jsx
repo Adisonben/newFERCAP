@@ -7,8 +7,9 @@ import { Head, Link, useForm } from "@inertiajs/react";
 import { RadioGroup, Radio, FormControlLabel } from "@mui/material";
 
 export default function Register({ registerRoles }) {
+
     const { data, setData, post, processing, errors, reset } = useForm({
-        role: "",
+        role: registerRoles[0]?.id || "",
         email: "",
         password: "",
         password_confirmation: "",

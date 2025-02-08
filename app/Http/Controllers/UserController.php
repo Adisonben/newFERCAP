@@ -19,7 +19,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::whereNot('email', "admin@iddrives")->get(['id', 'email', 'status', 'role_id'])->toArray();
+        $users = User::whereNot('email', "admin@iddrives")->orderByDesc('created_at')->get(['id', 'email', 'status', 'role_id'])->toArray();
         return inertia('Users/UserPage', [
             'resFormBack' => session('resFormBack') ?? null,
             'users' => $users,
@@ -56,7 +56,6 @@ class UserController extends Controller
                 'timestamp' => now()->toISOString()
             ]);
         } catch (\Throwable $th) {
-            dd($th->getMessage());
             return to_route('users.index')->with('resFormBack', [
                 'error' => 'An error occurred while creating the User',
                 'timestamp' => now()->toISOString()
@@ -73,10 +72,37 @@ class UserController extends Controller
             User::where('id', Auth::user()->id)->update([
                 "status" => 1
             ]);
-            return to_route('dashboard');
+            return to_route('home');
         } catch (\Throwable $th) {
             // throw $th;
             return redirect()->back()->with(['error' => $th->getMessage(),]);
+        }
+    }
+
+    public function updateUserInfo(UserInfoRequest $request)
+    {
+        $userInfoData = $request->validated();
+        AppUserInfo::where('user_id', Auth::user()->id)->update($userInfoData);
+        return to_route('profile.edit');
+    }
+
+    public function toggleStatus($userId)
+    {
+        try {
+            $user = User::findOrFail($userId);
+            $user->status = $user->status === 0 ? 1 : 0;
+            $user->save();
+
+            return Redirect::back()->with('resFormBack', [
+                'success' => 'User status updated successfully',
+                'timestamp' => now()->toISOString()
+            ]);
+        } catch (\Throwable $th) {
+            //throw $th;
+            return Redirect::back()->with('resFormBack', [
+                'error' => 'An error occurred while updating the User status',
+                'timestamp' => now()->toISOString()
+            ]);
         }
     }
 }

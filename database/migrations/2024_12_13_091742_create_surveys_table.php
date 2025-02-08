@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id();
             $table->uuid('survey_id')->unique();
             $table->foreignId('recognition_id')->constrained("recognitions")->cascadeOnDelete();
-            $table->foreignId('created_by')->constrained("users")->nullOnDelete();
+            $table->foreignId('created_by')->nullable()->constrained("users")->nullOnDelete();
             $table->text('description')->nullable();
             $table->dateTime('start_date')->nullable();
             $table->dateTime('end_date')->nullable();
-            $table->foreignId('fercap_group')->constrained("app_fercap_groups")->nullOnDelete();
+            $table->foreignId('fercap_group')->nullable()->constrained("app_fercap_groups")->nullOnDelete();
             $table->integer('status')->comment('0=close, 1=ongoing, 2=complete, 3=fail')->default(1);
             $table->timestamps();
             $table->softDeletes();

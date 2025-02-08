@@ -13,6 +13,11 @@ class SurveyDiscussionFile extends Model
         'file_id',
         'room_id',
         'comment_id',
-        'status'
+        'status'  // 0=reject, 1=simple, 2=approved default=1
     ];
+
+    public function getFileData()
+    {
+        return $this->belongsTo(UploadedFile::class, 'file_id')->select('id', 'folder', 'file_name', 'original_name', 'size');
+    }
 }

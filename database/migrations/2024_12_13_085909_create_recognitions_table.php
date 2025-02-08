@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('recognitions', function (Blueprint $table) {
             $table->id();
             $table->uuid('recognition_id')->unique();
-            $table->foreignId('created_by')->constrained("users")->nullOnDelete();
+            $table->foreignId('created_by')->nullable()->constrained("users")->nullOnDelete();
             $table->string('institute');
             $table->string('ec_name');
             $table->string('address');
@@ -39,7 +39,7 @@ return new class extends Migration
             $table->string('propose_survey_start_date')->nullable();
             $table->string('propose_survey_end_date')->nullable();
             $table->dateTime('expire_date')->nullable();
-            $table->integer('status')->comment('0=unactive, 1=active, 2=complete, 3=cancel')->default(0);
+            $table->integer('status')->comment('0=disable, 1=active, 2=complete, 3=reject')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

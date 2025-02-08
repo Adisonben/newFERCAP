@@ -1,8 +1,12 @@
 import React from "react";
 import { Chip, Stack, Button } from "@mui/material";
-import { Edit, Delete, PowerSettingsNew } from "@mui/icons-material";
+import { ListAlt } from "@mui/icons-material";
+import { Link } from "@inertiajs/react";
+import {
+    getDateString,
+} from "@/Functions/DataConvert";
 
-const RecognitionsTable = ({ recognitions = [] }) => {
+const MySurveyTable = ({ surveys }) => {
     return (
         <>
             <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 border">
@@ -12,13 +16,19 @@ const RecognitionsTable = ({ recognitions = [] }) => {
                             scope="col"
                             className="px-6 py-3 text-left text-xs font-medium text-gray-50 uppercase tracking-wider dark:text-gray-300"
                         >
-                            Title
+                            Institute
                         </th>
                         <th
                             scope="col"
                             className="px-6 py-3 text-left text-xs font-medium text-gray-50 uppercase tracking-wider dark:text-gray-300"
                         >
-                            Ordering
+                            Description
+                        </th>
+                        <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-medium text-gray-50 uppercase tracking-wider dark:text-gray-300"
+                        >
+                            Schedule
                         </th>
                         <th
                             scope="col"
@@ -35,24 +45,36 @@ const RecognitionsTable = ({ recognitions = [] }) => {
                     </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
-                    {recognitions?.length > 0 ? (
-                        recognitions.map((recognition, index) => (
+                    {surveys?.length > 0 ? (
+                        surveys.map((survey, index) => (
                             <tr key={index}>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">
-                                    recognition Name
+                                    {survey.simp_recognition?.institute ?? "-"}
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">
+                                    {survey.description ?? "-"}
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                    recognition Ordering
+                                    <p>
+                                        Start:{" "}
+                                        <b>
+                                            {getDateString(survey.start_date)}
+                                        </b>
+                                    </p>
+                                    <p>
+                                        End:{" "}
+                                        <b>{getDateString(survey.end_date)}</b>
+                                    </p>
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
                                     <Chip
                                         label={
-                                            recognition.status
-                                                ? "Active"
-                                                : "Disabled"
+                                            survey.is_surveyor_team?.status
+                                                ? "Member"
+                                                : "Removed"
                                         }
                                         color={
-                                            recognition.status
+                                            survey.is_surveyor_team?.status
                                                 ? "success"
                                                 : "error"
                                         }
@@ -60,45 +82,30 @@ const RecognitionsTable = ({ recognitions = [] }) => {
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                     <Stack spacing={1} direction="row">
-                                        <Button
-                                            variant="contained"
-                                            startIcon={<Edit />}
-                                            size="small"
-                                            // onClick={() =>
-                                            //     handleEdit(protocolType)
-                                            // }
+                                        <Link
+                                            href={route(
+                                                "surveys.show",
+                                                survey.survey_id
+                                            )}
+                                            className={survey.is_surveyor_team?.status ? "" : "pointer-events-none"}
                                         >
-                                            Edit
-                                        </Button>
-                                        <Button
-                                            variant="contained"
-                                            startIcon={<Delete />}
-                                            color="error"
-                                            size="small"
-                                            // onClick={() =>
-                                            //     handleDeleteShow(protocolType)
-                                            // }
-                                        >
-                                            Delete
-                                        </Button>
-                                        <Button
-                                            variant="contained"
-                                            startIcon={<PowerSettingsNew />}
-                                            color="info"
-                                            size="small"
-                                            // onClick={() =>
-                                            //     toggleStatus(protocolType.id)
-                                            // }
-                                        >
-                                            Disable
-                                        </Button>
+                                            <Button
+                                                variant="contained"
+                                                startIcon={<ListAlt />}
+                                                color="info"
+                                                size="small"
+                                                disabled={!survey.is_surveyor_team?.status}
+                                            >
+                                                Info
+                                            </Button>
+                                        </Link>
                                     </Stack>
                                 </td>
                             </tr>
                         ))
                     ) : (
                         <tr>
-                            <td colSpan="4" className="text-center">
+                            <td colSpan="5" className="text-center">
                                 No data found
                             </td>
                         </tr>
@@ -109,4 +116,4 @@ const RecognitionsTable = ({ recognitions = [] }) => {
     );
 };
 
-export default RecognitionsTable;
+export default MySurveyTable;

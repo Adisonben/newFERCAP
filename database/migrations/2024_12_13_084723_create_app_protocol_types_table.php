@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->integer('ordering')->nullable();
-            $table->boolean('status')->default(true)->comment('false=unactive, true=active');
+            $table->boolean('status')->default(true)->comment('false=disable, true=active');
             $table->timestamps();
         });
     }

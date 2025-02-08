@@ -13,7 +13,7 @@ class UploadedFile extends Model
         'folder',
         'file_name',
         'original_name',
-        'size',
+        'size', // Bytes
         'extension',
         'uploaded_by'
     ];

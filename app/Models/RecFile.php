@@ -13,7 +13,12 @@ class RecFile extends Model
         'file_id',
         'recognition_id',
         'description',
-        'file_type',
-        'status'
+        'file_type', // invoices, members, staffs, sops, assessments, receipts, letters
+        'status' // 0=unavailable, 1=available, 2=approved, default=1
     ];
+
+    public function getFile()
+    {
+        return $this->belongsTo(UploadedFile::class, 'file_id');
+    }
 }

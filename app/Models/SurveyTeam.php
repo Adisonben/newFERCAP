@@ -13,7 +13,17 @@ class SurveyTeam extends Model
         'survey_id',
         'user_id',
         'role_id',
-        'status',
+        'status', // 0=Removed, 1=Member, default=1
         'selected_by'
     ];
+
+    public function getUser()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function getRole()
+    {
+        return $this->belongsTo(AppRole::class, 'role_id');
+    }
 }

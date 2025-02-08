@@ -439,11 +439,12 @@ export default function FillMoreInfo({ nationalities, countries }) {
                                     variant="outlined"
                                     type="button"
                                     color="error"
+                                    loading={processing}
                                     onClick={() => reset()}
                                 >
                                     Reset
                                 </Button>
-                                <Button variant="contained" type="submit">
+                                <Button variant="contained" type="submit" loading={processing}>
                                     Save
                                 </Button>
                             </div>
