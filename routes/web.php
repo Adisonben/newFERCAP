@@ -27,7 +27,7 @@ Route::get('/phpinfo', function () {
     return phpinfo();
 });
 
-Route::post('/testlogin', function (Request $request) {
+Route::get('/testlogin', function () {
     dd("test");
 })->name('testlogin');
 
