@@ -140,9 +140,7 @@ const UsersDataTable = ({ usersList = [], role_name }) => {
                                 id="email_filter"
                                 value={emailFilter}
                                 className="block w-full h-8"
-                                onChange={(e) =>
-                                    setEmailFilter(e.target.value)
-                                }
+                                onChange={(e) => setEmailFilter(e.target.value)}
                                 placeholder="Search by email..."
                             />
                         </th>
@@ -154,9 +152,7 @@ const UsersDataTable = ({ usersList = [], role_name }) => {
                                 id="name_filter"
                                 className="block w-full h-8"
                                 value={nameFilter}
-                                onChange={(e) =>
-                                    setNameFilter(e.target.value)
-                                }
+                                onChange={(e) => setNameFilter(e.target.value)}
                                 placeholder="Search by name..."
                             />
                         </th>
@@ -170,9 +166,11 @@ const UsersDataTable = ({ usersList = [], role_name }) => {
                                 onChange={(e) => setRoleFilter(e.target.value)}
                                 className="block w-full h-8 text-sm"
                             >
-                                <option value="" >Select user role</option>
+                                <option value="">All user role</option>
                                 {userRoles?.map((role) => (
-                                    <option key={role.id} value={role.id}>{role.label}</option>
+                                    <option key={role.id} value={role.id}>
+                                        {role.label}
+                                    </option>
                                 ))}
                             </SelectInput>
                         </th>
@@ -183,20 +181,23 @@ const UsersDataTable = ({ usersList = [], role_name }) => {
                             <SelectInput
                                 name="status_filter"
                                 value={statusFilter}
-                                onChange={(e) => setStatusFilter(e.target.value)}
+                                onChange={(e) =>
+                                    setStatusFilter(e.target.value)
+                                }
                                 className="block w-full h-8 text-sm"
                             >
-                                <option value="" >Select status</option>
+                                <option value="">All status</option>
                                 {userStatus?.map((status) => (
-                                    <option key={status.id} value={status.id}>{status.name}</option>
+                                    <option key={status.id} value={status.id}>
+                                        {status.name}
+                                    </option>
                                 ))}
                             </SelectInput>
                         </th>
                         <th
                             scope="col"
                             className="px-6 pb-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300"
-                        >
-                        </th>
+                        ></th>
                     </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
@@ -227,74 +228,85 @@ const UsersDataTable = ({ usersList = [], role_name }) => {
                                         color={
                                             user.status === 1
                                                 ? "success"
-                                                : user.status === 1
+                                                : user.status === 0
                                                 ? "error"
-                                                : "warning"
+                                                : user.status === 3
+                                                ? "warning"
+                                                : ""
                                         }
                                     />
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                    <Stack spacing={1} direction="row">
-                                        <PermissionGuard
-                                            userRole={role_name}
-                                            permissionName="edit_user"
-                                        >
-                                            <Button
-                                                variant="contained"
-                                                startIcon={<Edit />}
-                                                size="small"
-                                                onClick={() => handleEdit(user)}
-                                            >
-                                                Edit
-                                            </Button>
-                                        </PermissionGuard>
-                                        <PermissionGuard
-                                            userRole={role_name}
-                                            permissionName="delete_user"
-                                        >
-                                            <Button
-                                                variant="contained"
-                                                startIcon={<Delete />}
-                                                color="error"
-                                                size="small"
-                                                onClick={() =>
-                                                    handleDeleteShow(user)
-                                                }
-                                            >
-                                                Delete
-                                            </Button>
-                                        </PermissionGuard>
-                                        {(user.status === 1 || user.status === 0) && (
+                                    {user.status !== 2 && (
+                                        <Stack spacing={1} direction="row">
                                             <PermissionGuard
                                                 userRole={role_name}
-                                                permissionName="disable_user"
+                                                permissionName="edit_user"
                                             >
                                                 <Button
                                                     variant="contained"
-                                                    startIcon={<PowerSettingsNew />}
-                                                    color="warning"
+                                                    startIcon={<Edit />}
                                                     size="small"
                                                     onClick={() =>
-                                                        toggleStatus(user.id)
+                                                        handleEdit(user)
                                                     }
                                                 >
-                                                    {user.status ? "Disable" : "Enable"}
+                                                    Edit
                                                 </Button>
                                             </PermissionGuard>
-                                        )}
-                                        <Link
-                                            href={"#"}
-                                        >
-                                            <Button
-                                                variant="contained"
-                                                startIcon={<ListAlt />}
-                                                color="info"
-                                                size="small"
+                                            <PermissionGuard
+                                                userRole={role_name}
+                                                permissionName="delete_user"
                                             >
-                                                Info
-                                            </Button>
-                                        </Link>
-                                    </Stack>
+                                                <Button
+                                                    variant="contained"
+                                                    startIcon={<Delete />}
+                                                    color="error"
+                                                    size="small"
+                                                    onClick={() =>
+                                                        handleDeleteShow(user)
+                                                    }
+                                                >
+                                                    Delete
+                                                </Button>
+                                            </PermissionGuard>
+                                            {(user.status === 1 ||
+                                                user.status === 0) && (
+                                                <PermissionGuard
+                                                    userRole={role_name}
+                                                    permissionName="disable_user"
+                                                >
+                                                    <Button
+                                                        variant="contained"
+                                                        startIcon={
+                                                            <PowerSettingsNew />
+                                                        }
+                                                        color="warning"
+                                                        size="small"
+                                                        onClick={() =>
+                                                            toggleStatus(
+                                                                user.id
+                                                            )
+                                                        }
+                                                    >
+                                                        {user.status
+                                                            ? "Disable"
+                                                            : "Enable"}
+                                                    </Button>
+                                                </PermissionGuard>
+                                            )}
+                                            {/* <Link href={"#"}>
+                                                <Button
+                                                    variant="contained"
+                                                    startIcon={<ListAlt />}
+                                                    color="info"
+                                                    size="small"
+                                                >
+                                                    Info
+                                                </Button>
+                                            </Link> */}
+                                        </Stack>
+                                    )}
                                 </td>
                             </tr>
                         ))

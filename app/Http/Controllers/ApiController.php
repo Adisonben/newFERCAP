@@ -57,7 +57,7 @@ class ApiController extends Controller
     public function getSelectUser(Request $request)
     {
         $ferRole = AppRole::where('codename', 'fercap')->first();
-        $users = User::whereNot('role_id', 1)->where('role_id', $ferRole->id)->get();
+        $users = User::whereNot('role_id', 1)->where('role_id', $ferRole->id)->where('status', 1)->get();
         return SelectUserResource::collection($users);
     }
 

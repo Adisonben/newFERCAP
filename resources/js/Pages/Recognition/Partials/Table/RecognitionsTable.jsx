@@ -3,7 +3,7 @@ import { Chip, Stack, Button } from "@mui/material";
 import {
     Edit,
     Delete,
-    PowerSettingsNew,
+    ListAlt,
     CheckCircle,
     Report
 } from "@mui/icons-material";
@@ -265,7 +265,7 @@ const RecognitionsTable = ({ recognitions = [], role_name }) => {
                                                 <Button
                                                     variant="contained"
                                                     startIcon={
-                                                        <PowerSettingsNew />
+                                                        <ListAlt />
                                                     }
                                                     color="info"
                                                     size="small"

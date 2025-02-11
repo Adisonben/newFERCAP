@@ -3,7 +3,7 @@ export const recognitionFileTypes = [
     { id: 1, name: "invoices", label: "Invoice" },
     { id: 3, name: "staffs", label: "Staffs" },
     { id: 4, name: "sops", label: "SOPs" },
-    { id: 5, name: "assessments", label: "Assessments" },
+    { id: 5, name: "accessments", label: "Assessments" },
     { id: 6, name: "receipts", label: "Receipts" },
     { id: 7, name: "letters", label: "Letters" },
     { id: 8, name: "slip", label: "Slip" },
@@ -22,11 +22,11 @@ export const permissions = [
     },
     {
         name: "view_available_survey",
-        roles: ['admin', 'moderator', 'surveyor'],
+        roles: ['admin', 'surveyor'],
     },
     {
         name: "view_my_survey",
-        roles: ['admin', 'moderator', 'surveyor'],
+        roles: ['admin', 'surveyor'],
     },
     {
         name: "view_protocol_type",
@@ -83,6 +83,10 @@ export const permissions = [
     {
         name: "delete_survey",
         roles: ['admin', 'moderator'],
+    },
+    {
+        name: "add_survey_file",
+        roles: ['admin', 'moderator', 'ec'],
     },
     // Survey Team
     {

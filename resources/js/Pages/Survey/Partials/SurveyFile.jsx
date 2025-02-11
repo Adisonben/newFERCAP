@@ -3,8 +3,9 @@ import { Button } from "@mui/material";
 import SurveyUploadFilesModal from "./SurveyUploadFilesModal";
 import SurveyFileItem from "./SurveyFileItem";
 import DeleteModal from "@/Components/DeleteModal";
+import PermissionGuard from "@/Components/PermissionGuard";
 
-const SurveyFile = ({ survey_id }) => {
+const SurveyFile = ({ survey_id, role_name }) => {
     const [showUploadFilesModal, setShowUploadFilesModal] = useState(false);
     const [surveyFiles, setSurveyFiles] = useState([]);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -41,17 +42,20 @@ const SurveyFile = ({ survey_id }) => {
 
     const handleDeleteSubmit = async (e) => {
         e.preventDefault();
-        await axios.delete(`/api/survey-file/delete/${deleteSurveyFileId}`).then((response) => {
-            if (response.status === 200) {
-                getSurveyFiles();
-                setDeleteSurveyFileId(null);
-                setShowDeleteModal(false);
-            } else {
+        await axios
+            .delete(`/api/survey-file/delete/${deleteSurveyFileId}`)
+            .then((response) => {
+                if (response.status === 200) {
+                    getSurveyFiles();
+                    setDeleteSurveyFileId(null);
+                    setShowDeleteModal(false);
+                } else {
+                    console.log("Error deleting survey file.");
+                }
+            })
+            .catch((error) => {
                 console.log("Error deleting survey file.");
-            }
-        }).catch((error) => {
-            console.log("Error deleting survey file.");
-        });
+            });
     };
 
     return (
@@ -60,20 +64,29 @@ const SurveyFile = ({ survey_id }) => {
                 <div className="flex justify-between mb-4">
                     <p className="text-xl font-bold">Servey Files</p>
                     <div>
-                        <Button
-                            variant="contained"
-                            color="success"
-                            size="small"
-                            onClick={() => setShowUploadFilesModal(true)}
+                        <PermissionGuard
+                            userRole={role_name}
+                            permissionName="add_survey_file"
                         >
-                            Add file
-                        </Button>
+                            <Button
+                                variant="contained"
+                                color="success"
+                                size="small"
+                                onClick={() => setShowUploadFilesModal(true)}
+                            >
+                                Add file
+                            </Button>
+                        </PermissionGuard>
                     </div>
                 </div>
                 <div className="overflow-y-auto h-80">
                     <div className="space-y-2 mb-4">
                         {surveyFiles?.map((fileData, index) => (
-                            <SurveyFileItem key={index} fileData={fileData} handleDeleteShow={handleDeleteShow} />
+                            <SurveyFileItem
+                                key={index}
+                                fileData={fileData}
+                                handleDeleteShow={handleDeleteShow}
+                            />
                         ))}
                     </div>
                 </div>

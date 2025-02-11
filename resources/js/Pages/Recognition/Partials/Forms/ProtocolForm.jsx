@@ -28,7 +28,7 @@ const ProtocolForm = ({ data, setData, errors }) => {
             <div className="mb-4">
                 <InputLabel
                     htmlFor="protocol_board_review"
-                    value="Number of protocols reviewed through full board review the last 3 years"
+                    value="Number of protocols reviewed through full board review the last 3 years*"
                 />
 
                 <TextInput
@@ -50,7 +50,7 @@ const ProtocolForm = ({ data, setData, errors }) => {
             <div className="mb-4">
                 <InputLabel
                     htmlFor="protocol_expedited_review"
-                    value="Number of protocols reviewed through expedited review the last 3 years"
+                    value="Number of protocols reviewed through expedited review the last 3 years*"
                 />
 
                 <TextInput
@@ -72,7 +72,7 @@ const ProtocolForm = ({ data, setData, errors }) => {
             <div className="mb-4">
                 <InputLabel
                     htmlFor="protocol_board_meeting"
-                    value="Number of board meeting per year"
+                    value="Number of board meeting per year*"
                 />
 
                 <TextInput
@@ -162,7 +162,7 @@ const ProtocolForm = ({ data, setData, errors }) => {
             <div className="mb-4">
                 <InputLabel
                     htmlFor="avg_members_per_meeting"
-                    value="Average Members Per Board Meeting"
+                    value="Average Members Per Board Meeting*"
                 />
 
                 <TextInput
@@ -196,7 +196,6 @@ const ProtocolForm = ({ data, setData, errors }) => {
                     onChange={(e) =>
                         setData("ethical_challenges", e.target.value)
                     }
-                    required
                     autoComplete="ethical_challenges"
                 />
 

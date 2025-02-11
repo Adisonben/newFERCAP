@@ -41,7 +41,7 @@ const SurveyDetail = ({ survey, resFormBack, disscussionRooms, role_name }) => {
                     <SurveyInfo survey={survey} role_name={role_name} />
                 </div>
                 <div className="xl:col-span-2 overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800 border">
-                    <SurveyFile survey_id={survey.id} />
+                    <SurveyFile survey_id={survey.id} role_name={role_name} />
                 </div>
             </div>
             <div className="grid grid-cols-1 gap-4 xl:grid-cols-3 mb-4">

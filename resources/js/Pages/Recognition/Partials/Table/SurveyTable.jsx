@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Chip, Stack, Button } from "@mui/material";
-import { Edit, Delete, PowerSettingsNew, Group } from "@mui/icons-material";
+import { Edit, Delete, ListAlt, Group } from "@mui/icons-material";
 import { router, useForm, Link } from "@inertiajs/react";
 import {
     getDateString,
@@ -199,7 +199,7 @@ const SurveyTable = ({ surveys, role_name }) => {
                                                 <Button
                                                     variant="contained"
                                                     startIcon={
-                                                        <PowerSettingsNew />
+                                                        <ListAlt />
                                                     }
                                                     color="info"
                                                     size="small"

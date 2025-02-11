@@ -31,7 +31,7 @@ class RecognitionRequest extends FormRequest
             'zip_code' => 'required|string|max:20',
             'country' => 'required|string|max:255',
             'phone' => 'required|string|max:20',
-            'website' => 'nullable|url|max:255',
+            'website' => 'required|string|max:255',
             'contact_person' => 'required|string|max:255',
             'contact_email' => 'required|email|max:255',
             'contact_position' => 'required|string|max:255',
@@ -44,7 +44,7 @@ class RecognitionRequest extends FormRequest
             'protocol_expedited_review' => 'required|string|max:255',
             'protocol_board_meeting' => 'required|string|max:255',
             'avg_members_per_meeting' => 'required|string|min:1',
-            'ethical_challenges' => 'nullable|string',
+            'ethical_challenges' => 'required|string',
             'common_type' => 'nullable|array',
             // Other
             'propose_survey_start_date' => 'nullable|date',

@@ -23,7 +23,7 @@ const InfoForm = ({ data, setData, errors }) => {
     return (
         <>
             <div className="mb-4">
-                <InputLabel htmlFor="institute" value="Institute" />
+                <InputLabel htmlFor="institute" value="Institute*" />
 
                 <TextInput
                     id="institute"
@@ -37,7 +37,7 @@ const InfoForm = ({ data, setData, errors }) => {
                 <InputError className="mt-2" message={errors.institute} />
             </div>
             <div className="mb-4">
-                <InputLabel htmlFor="ec_name" value="Ethic Committee Name" />
+                <InputLabel htmlFor="ec_name" value="Ethic Committee Name*" />
 
                 <TextInput
                     id="ec_name"
@@ -51,7 +51,7 @@ const InfoForm = ({ data, setData, errors }) => {
                 <InputError className="mt-2" message={errors.ec_name} />
             </div>
             <div className="mb-4">
-                <InputLabel htmlFor="address" value="Address" />
+                <InputLabel htmlFor="address" value="Address*" />
 
                 <TextInput
                     id="address"
@@ -65,7 +65,7 @@ const InfoForm = ({ data, setData, errors }) => {
                 <InputError className="mt-2" message={errors.address} />
             </div>
             <div className="mb-4">
-                <InputLabel htmlFor="city" value="City" />
+                <InputLabel htmlFor="city" value="City*" />
 
                 <TextInput
                     id="city"
@@ -81,7 +81,7 @@ const InfoForm = ({ data, setData, errors }) => {
             <div className="mb-4">
                 <InputLabel
                     htmlFor="state_province_region"
-                    value="State / Province / Region"
+                    value="State | Province | Region *"
                 />
 
                 <TextInput
@@ -101,7 +101,7 @@ const InfoForm = ({ data, setData, errors }) => {
                 />
             </div>
             <div className="mb-4">
-                <InputLabel htmlFor="zip_code" value="Zip Code / Postal Code" />
+                <InputLabel htmlFor="zip_code" value="Zip Code | Postal Code*" />
 
                 <TextInput
                     id="zip_code"
@@ -115,7 +115,7 @@ const InfoForm = ({ data, setData, errors }) => {
                 <InputError className="mt-2" message={errors.zip_code} />
             </div>
             <div className="mb-4">
-                <InputLabel htmlFor="country" value="Country" />
+                <InputLabel htmlFor="country" value="Country*" />
 
                 <Autocomplete
                     disablePortal
@@ -133,7 +133,7 @@ const InfoForm = ({ data, setData, errors }) => {
                 <InputError className="mt-2" message={errors.country} />
             </div>
             <div className="mb-4">
-                <InputLabel htmlFor="phone" value="Phone" />
+                <InputLabel htmlFor="phone" value="Phone*" />
 
                 <TextInput
                     id="phone"
@@ -147,21 +147,21 @@ const InfoForm = ({ data, setData, errors }) => {
                 <InputError className="mt-2" message={errors.phone} />
             </div>
             <div className="mb-4">
-                <InputLabel htmlFor="website" value="Website" />
+                <InputLabel htmlFor="website" value="Website*" />
 
                 <TextInput
                     id="website"
                     className="mt-1 block w-full"
                     value={data.website}
                     onChange={(e) => setData("website", e.target.value)}
-                    required
                     autoComplete="website"
+                    required
                 />
 
                 <InputError className="mt-2" message={errors.website} />
             </div>
             <div className="mb-4">
-                <InputLabel htmlFor="contact_person" value="Contact Person" />
+                <InputLabel htmlFor="contact_person" value="Contact Person*" />
 
                 <TextInput
                     id="contact_person"
@@ -175,7 +175,7 @@ const InfoForm = ({ data, setData, errors }) => {
                 <InputError className="mt-2" message={errors.contact_person} />
             </div>
             <div className="mb-4">
-                <InputLabel htmlFor="contact_email" value="Contact Email" />
+                <InputLabel htmlFor="contact_email" value="Contact Email*" />
 
                 <TextInput
                     id="contact_email"
@@ -191,7 +191,7 @@ const InfoForm = ({ data, setData, errors }) => {
             <div className="mb-4">
                 <InputLabel
                     htmlFor="contact_position"
-                    value="Contact Position"
+                    value="Contact Position*"
                 />
 
                 <TextInput
@@ -211,7 +211,7 @@ const InfoForm = ({ data, setData, errors }) => {
                 />
             </div>
             <div className="mb-4">
-                <InputLabel htmlFor="chairperson" value="Chairperson" />
+                <InputLabel htmlFor="chairperson" value="Chairperson*" />
 
                 <TextInput
                     id="chairperson"
@@ -227,7 +227,7 @@ const InfoForm = ({ data, setData, errors }) => {
             <div className="mb-4">
                 <InputLabel
                     htmlFor="chairperson_email"
-                    value="Chairperson Email"
+                    value="Chairperson Email*"
                 />
 
                 <TextInput
@@ -247,7 +247,7 @@ const InfoForm = ({ data, setData, errors }) => {
                 />
             </div>
             <div className="mb-4">
-                <InputLabel htmlFor="secretary" value="Secretary" />
+                <InputLabel htmlFor="secretary" value="Secretary*" />
 
                 <TextInput
                     id="secretary"
@@ -261,7 +261,7 @@ const InfoForm = ({ data, setData, errors }) => {
                 <InputError className="mt-2" message={errors.secretary} />
             </div>
             <div className="mb-4">
-                <InputLabel htmlFor="secretary_email" value="Secretary Email" />
+                <InputLabel htmlFor="secretary_email" value="Secretary Email*" />
 
                 <TextInput
                     id="secretary_email"

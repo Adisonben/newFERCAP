@@ -19,14 +19,24 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::whereNot('email', "admin@iddrives")->orderByDesc('created_at')->get(['id', 'email', 'status', 'role_id'])->toArray();
+        $users = User::withTrashed()->whereNot('email', "admin@iddrives")->orderByDesc('created_at')->get(['id', 'email', 'status', 'role_id', 'deleted_at'])->toArray();
         return inertia('Users/UserPage', [
             'resFormBack' => session('resFormBack') ?? null,
             'users' => $users,
         ]);
     }
 
-    public function fillMoreInfo () {
+    public function showUser($user_id)
+    {
+        $users = User::where('user_id', $user_id)->firstOrFail();
+        return inertia('Users/UserPage', [
+            'resFormBack' => session('resFormBack') ?? null,
+            'users' => $users,
+        ]);
+    }
+
+    public function fillMoreInfo()
+    {
         $nationalities = AppNationality::all();
         $countries = AppCountry::all();
         return Inertia::render('FillMoreInfo', [
@@ -35,7 +45,8 @@ class UserController extends Controller
         ]);
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $request->validate([
             'role' => 'required|exists:app_roles,id',
             'email' => 'required|email|unique:users,email',
@@ -101,6 +112,28 @@ class UserController extends Controller
             //throw $th;
             return Redirect::back()->with('resFormBack', [
                 'error' => 'An error occurred while updating the User status',
+                'timestamp' => now()->toISOString()
+            ]);
+        }
+    }
+
+
+    public function deleteUser($userId)
+    {
+        try {
+            $user = User::findOrFail($userId);
+            $user->status = 2;
+            $user->save();
+            $user->delete();
+
+            return Redirect::back()->with('resFormBack', [
+                'success' => 'User deleted successfully',
+                'timestamp' => now()->toISOString()
+            ]);
+        } catch (\Throwable $th) {
+            //throw $th;
+            return Redirect::back()->with('resFormBack', [
+                'error' => 'An error occurred while deleting the User',
                 'timestamp' => now()->toISOString()
             ]);
         }
