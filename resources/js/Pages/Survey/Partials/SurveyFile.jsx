@@ -95,6 +95,7 @@ const SurveyFile = ({ survey_id, role_name }) => {
                 survey_id={survey_id}
                 show={showUploadFilesModal}
                 onClose={() => setShowUploadFilesModal(false)}
+                getSurveyFiles={getSurveyFiles}
             />
             <DeleteModal
                 show={showDeleteModal}

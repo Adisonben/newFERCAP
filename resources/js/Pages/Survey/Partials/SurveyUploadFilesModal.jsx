@@ -7,7 +7,7 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import InputError from "@/Components/InputError";
 import SelectInput from "@/Components/SelectInput";
 
-const SurveyUploadFilesModal = ({ show, onClose, survey_id }) => {
+const SurveyUploadFilesModal = ({ show, onClose, survey_id, getSurveyFiles }) => {
     const [files, setFiles] = useState([]);
     const [errorUpload, setErrorUpload] = useState("");
 
@@ -26,6 +26,7 @@ const SurveyUploadFilesModal = ({ show, onClose, survey_id }) => {
         }).then((response) => {
             setErrorUpload("");
             onClose();
+            getSurveyFiles();
         })
         .catch((error) => {
             if (error.response) {
