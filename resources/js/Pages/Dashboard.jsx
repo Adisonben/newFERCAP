@@ -21,8 +21,8 @@ export default function Dashboard({
     inc_ec_member,
     inc_surveyor_member,
 
-    lastest_surveys,
-    lastest_recognitions,
+    lastest_surveys = [],
+    lastest_recognitions = [],
 }) {
     const dashboard_data = [
         {
@@ -97,7 +97,7 @@ export default function Dashboard({
                     <h2 className="text-xl font-bold mb-2">
                         Lastest Recognition
                     </h2>
-                    {lastest_recognitions ? lastest_recognitions?.map((recog) => (
+                    {lastest_recognitions?.length > 0 ? lastest_recognitions.map((recog) => (
                         <div
                             className="bg-gray-100 px-3 rounded-lg mb-2 flex justify-between items-center"
                             key={recog.id}
@@ -150,7 +150,7 @@ export default function Dashboard({
                 </div>
                 <div className="xl:col-span-2 overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800 border w-full lg:w-1/2 p-4">
                     <h2 className="text-xl font-bold mb-2">Lastest Surveys</h2>
-                    {lastest_surveys ? lastest_surveys?.map((survey) => (
+                    {lastest_surveys?.length > 0 ? lastest_surveys.map((survey) => (
                         <div
                             className="bg-gray-100 px-3 rounded-lg mb-2 flex justify-between items-center"
                             key={survey.id}
