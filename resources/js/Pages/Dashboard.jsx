@@ -1,9 +1,14 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head } from "@inertiajs/react";
+import { Head, Link } from "@inertiajs/react";
 import Button from "@mui/material/Button";
 import { Card, CardContent, Typography, Chip } from "@mui/material";
 import { ArrowUpward, Article } from "@mui/icons-material";
-import SurveyCalendar from "@/Components/SurveyCalendar";
+import {
+    getRecStatusColor,
+    getRecStatusLabel,
+    getSurvStatusColor,
+    getSurvStatusLabel,
+} from "@/Functions/DataConvert";
 
 export default function Dashboard({
     total_recognition,
@@ -17,6 +22,7 @@ export default function Dashboard({
     inc_surveyor_member,
 
     lastest_surveys,
+    lastest_recognitions,
 }) {
     const dashboard_data = [
         {
@@ -87,27 +93,100 @@ export default function Dashboard({
                 ))}
             </div>
             <div className="flex gap-4 flex-wrap lg:flex-nowrap">
-                <div className="xl:col-span-2 overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800 border w-full lg:w-3/5 p-4">
-                    <h2 className="text-xl font-bold">Surveys Schedule</h2>
-                    <SurveyCalendar />
-                </div>
-                <div className="xl:col-span-2 overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800 border w-full lg:w-2/5 p-4">
-                    <h2 className="text-xl font-bold mb-2">Lastest Surveys</h2>
-                    {lastest_surveys.map((survey) => (
-                        <div className="bg-gray-100 px-3 rounded-lg mb-2 flex justify-between items-center" key={survey.id}>
+                <div className="xl:col-span-2 overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800 border w-full lg:w-1/2 p-4">
+                    <h2 className="text-xl font-bold mb-2">
+                        Lastest Recognition
+                    </h2>
+                    {lastest_recognitions?.map((recog) => (
+                        <div
+                            className="bg-gray-100 px-3 rounded-lg mb-2 flex justify-between items-center"
+                            key={recog.id}
+                        >
                             <div className="flex gap-2 border-gray-100 py-2 text-sm">
                                 <div className="text-gray-500 text-xl">
                                     <Article />
                                 </div>
                                 <div className="text-gray-900">
-                                    <h2><b>{survey.simp_recognition?.institute}</b> <span className="text-xs ms-2">{(new Date(survey.created_at)).toLocaleString()}</span></h2>
-                                    <p className="text-xs text-gray-500">{ survey.description }</p>
+                                    <h2>
+                                        <b>{recog.institute}</b>{" "}
+                                        <span className="text-xs ms-2">
+                                            {new Date(
+                                                recog.created_at
+                                            ).toLocaleString()}
+                                        </span>
+                                    </h2>
+                                    <p className="text-xs text-gray-500">
+                                        {recog.ec_name}
+                                    </p>
                                 </div>
                             </div>
                             <div>
-                                <Button size="small" color="primary">
-                                    View
-                                </Button>
+                                <Chip
+                                    label={getRecStatusLabel(recog.status)}
+                                    color={getRecStatusColor(recog.status)}
+                                    size="small"
+                                />
+                            </div>
+                            <div>
+                                <Link
+                                    href={route(
+                                        "recognitions.show",
+                                        recog.recognition_id
+                                    )}
+                                >
+                                    <Button size="small" color="primary">
+                                        View
+                                    </Button>
+                                </Link>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+                <div className="xl:col-span-2 overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800 border w-full lg:w-1/2 p-4">
+                    <h2 className="text-xl font-bold mb-2">Lastest Surveys</h2>
+                    {lastest_surveys?.map((survey) => (
+                        <div
+                            className="bg-gray-100 px-3 rounded-lg mb-2 flex justify-between items-center"
+                            key={survey.id}
+                        >
+                            <div className="flex gap-2 border-gray-100 py-2 text-sm">
+                                <div className="text-gray-500 text-xl">
+                                    <Article />
+                                </div>
+                                <div className="text-gray-900">
+                                    <h2>
+                                        <b>
+                                            {survey.simp_recognition?.institute}
+                                        </b>{" "}
+                                        <span className="text-xs ms-2">
+                                            {new Date(
+                                                survey.created_at
+                                            ).toLocaleString()}
+                                        </span>
+                                    </h2>
+                                    <p className="text-xs text-gray-500">
+                                        {survey.description}
+                                    </p>
+                                </div>
+                            </div>
+                            <div>
+                                <Chip
+                                    label={getSurvStatusLabel(survey.status)}
+                                    color={getSurvStatusColor(survey.status)}
+                                    size="small"
+                                />
+                            </div>
+                            <div>
+                                <Link
+                                    href={route(
+                                        "surveys.show",
+                                        survey.survey_id
+                                    )}
+                                >
+                                    <Button size="small" color="primary">
+                                        View
+                                    </Button>
+                                </Link>
                             </div>
                         </div>
                     ))}

@@ -25,6 +25,7 @@ class HomeController extends Controller
             $total_surveyor_member = User::where('role_id', $surveyor_role->id)->count();
 
             $lastest_surveys = Survey::orderBy('created_at', 'desc')->with('simpRecognition')->limit(10)->get();
+            $lastest_recognitions = Recognition::orderBy('created_at', 'desc')->limit(10)->get(['id', 'ec_name', 'created_at', 'institute', 'status', 'recognition_id']);
 
             $this_day_recognition = Recognition::whereDate('created_at', date('Y-m-d'))->count();
             $this_day_ongoing_surveys = Survey::whereDate('created_at', date('Y-m-d'))->where('status', 1)->count();
@@ -38,6 +39,7 @@ class HomeController extends Controller
                 'total_surveyor_member' => $total_surveyor_member,
 
                 'lastest_surveys' => $lastest_surveys,
+                'lastest_recognitions' => $lastest_recognitions,
 
                 'inc_recognition' => $this_day_recognition,
                 'inc_ongoing_surveys' => $this_day_ongoing_surveys,
