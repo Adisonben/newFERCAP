@@ -134,7 +134,9 @@ const ProtocolTypePage = ({ success, error, protocolTypes, role_name }) => {
                                 />
                             </PermissionGuard>
                         </div>
-                        <ProtocolDataTable protocolTypes={protocolTypes} role_name={role_name} />
+                        <div className="overflow-x-auto">
+                            <ProtocolDataTable protocolTypes={protocolTypes} role_name={role_name} />
+                        </div>
                     </div>
                 </div>
             </div>

@@ -13,7 +13,7 @@ class RecFile extends Model
         'file_id',
         'recognition_id',
         'description',
-        'file_type', // invoices, members, staffs, sops, assessments, receipts, letters
+        'file_type', // invoices, members, staffs, sops, assessments, receipts, letters, annual_progress_reports
         'status' // 0=unavailable, 1=available, 2=approved, default=1
     ];
 

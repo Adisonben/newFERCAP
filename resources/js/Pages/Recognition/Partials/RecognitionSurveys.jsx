@@ -7,7 +7,7 @@ import { useForm } from "@inertiajs/react";
 import PermissionGuard from "@/Components/PermissionGuard";
 import SurveyCalendar from "@/Components/SurveyCalendar";
 
-const RecognitionSurveys = ({ rec_id, surveys, role_name }) => {
+const RecognitionSurveys = ({ rec_id = '', surveys = [], role_name = "" }) => {
     const [creatingSurvey, setCreatingSurvey] = useState(false);
     const currentDate = new Date();
     const [showCalendar, setShowCalendar] = useState(false);
@@ -96,7 +96,7 @@ const RecognitionSurveys = ({ rec_id, surveys, role_name }) => {
                         />
                     </div>
                 </div>
-                <div>
+                <div className="overflow-x-auto">
                     {showCalendar ? (
                         <SurveyCalendar eventList={eventList} />
                     ) : (

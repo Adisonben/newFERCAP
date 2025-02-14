@@ -104,6 +104,7 @@ Route::prefix('api')->middleware('auth')->group(function () {
     Route::post('/upload-file', [ApiController::class, 'storeFile']);
     Route::delete('/delete-file/{id}', [ApiController::class, 'handleDeleteFile']);
     Route::get('/recognition-files/{rec_id}', [ApiController::class, 'getRecognitionFiles']);
+    Route::get('/annual-progress-files/{rec_id}', [ApiController::class, 'getAnnualFiles']);
     Route::get('/download-file/{id}', [ApiController::class, 'downloadFile']);
     Route::get('/fercap-groups', [ApiController::class, 'getFercapGroups']);
 

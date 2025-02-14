@@ -86,12 +86,12 @@ export default function Dashboard({
                     </Card>
                 ))}
             </div>
-            <div className="flex gap-4">
-                <div className="xl:col-span-2 overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800 border w-3/5 p-4">
+            <div className="flex gap-4 flex-wrap lg:flex-nowrap">
+                <div className="xl:col-span-2 overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800 border w-full lg:w-3/5 p-4">
                     <h2 className="text-xl font-bold">Surveys Schedule</h2>
                     <SurveyCalendar />
                 </div>
-                <div className="xl:col-span-2 overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800 border w-2/5 p-4">
+                <div className="xl:col-span-2 overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800 border w-full lg:w-2/5 p-4">
                     <h2 className="text-xl font-bold mb-2">Lastest Surveys</h2>
                     {lastest_surveys.map((survey) => (
                         <div className="bg-gray-100 px-3 rounded-lg mb-2 flex justify-between items-center" key={survey.id}>

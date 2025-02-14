@@ -8,7 +8,7 @@ import InputError from "@/Components/InputError";
 import SelectInput from "@/Components/SelectInput";
 import { recognitionFileTypes } from "@/Functions/MasterDatas";
 
-const RecognitionUploadFileModal = ({ show, onClose, rec_id, fetchFiles }) => {
+const RecognitionUploadFileModal = ({ show, onClose, rec_id, setToggleFetch, rec_status }) => {
     const [files, setFiles] = useState([]);
     const [errorUpload, setErrorUpload] = useState("");
     const [fileType, setFileType] = useState("");
@@ -37,7 +37,7 @@ const RecognitionUploadFileModal = ({ show, onClose, rec_id, fetchFiles }) => {
             }).then((response) => {
                 setErrorUpload("");
                 setErrorFileType("");
-                fetchFiles();
+                setToggleFetch();
                 onClose();
             })
             .catch((error) => {
@@ -88,7 +88,11 @@ const RecognitionUploadFileModal = ({ show, onClose, rec_id, fetchFiles }) => {
                     >
                         <option value="" disabled>Select file type</option>
                         {recognitionFileTypes.length > 0 && recognitionFileTypes.map((fileType) => (
-                            <option key={fileType.id} value={fileType.name}>{fileType.label}</option>
+                            fileType.id === 9
+                            ? rec_status === 2
+                                ? <option key={fileType.id} value={fileType.name}>{fileType.label}</option>
+                                : <option key={fileType.id} value={fileType.name} disabled>{fileType.label}</option>
+                            : <option key={fileType.id} value={fileType.name}>{fileType.label}</option>
                         ))}
                     </SelectInput>
 

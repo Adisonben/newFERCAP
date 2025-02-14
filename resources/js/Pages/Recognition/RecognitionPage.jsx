@@ -59,7 +59,9 @@ const RecognitionPage = ({ resFormBack, recognitions, role_name }) => {
                                 </Link>
                             </PermissionGuard>
                         </div>
-                        <RecognitionsTable recognitions={recognitions} role_name={role_name} />
+                        <div className="overflow-x-auto">
+                            <RecognitionsTable recognitions={recognitions} role_name={role_name} />
+                        </div>
                     </div>
                 </div>
             </div>

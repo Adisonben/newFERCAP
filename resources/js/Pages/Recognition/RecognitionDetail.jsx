@@ -5,6 +5,7 @@ import RecognitionSurveys from "./Partials/RecognitionSurveys";
 import RecognitionFiles from "./Partials/RecognitionFiles";
 import { Head } from "@inertiajs/react";
 import RespAlert from "@/Components/RespAlert";
+import RecognitionTabs from "./Partials/RecognitionTabs";
 
 const RecognitionDetail = ({ recognition, resFormBack, surveys, role_name }) => {
     const [showAlert, setShowAlert] = useState(false);
@@ -36,7 +37,8 @@ const RecognitionDetail = ({ recognition, resFormBack, surveys, role_name }) => 
                     <RecognitionInfo recognition={recognition} />
                 </div>
                 <div className="xl:col-span-2 overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800 border">
-                    <RecognitionFiles rec_id={recognition.id} rec_status={recognition.status} />
+                    <RecognitionTabs recognition_id={recognition.id} recognition_status={recognition.status} />
+                    {/* <RecognitionFiles rec_id={recognition.id} rec_status={recognition.status} /> */}
                 </div>
             </div>
             {(recognition.status !== 0 && recognition.status !== 3) && (

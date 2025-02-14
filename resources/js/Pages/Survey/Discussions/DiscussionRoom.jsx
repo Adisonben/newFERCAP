@@ -63,7 +63,7 @@ const DiscussionRoom = ({ roomData, resFormBack, submitedFile, role_name }) => {
                 handleCloseAlert={() => setShowAlert(false)}
             />
             <div className="grid grid-cols-1 gap-4 xl:grid-cols-5 mb-4 h-full">
-                <div className="xl:col-span-3 overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800 border">
+                <div className="order-last xl:order-first xl:col-span-3 overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800 border">
                     <ChatRoom
                         roomId={roomData.room_id}
                         roomStatus={roomStatus}

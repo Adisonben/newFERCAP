@@ -104,8 +104,8 @@ export default function AuthenticatedLayout(props) {
             <AppBar
                 position="fixed"
                 sx={{
-                    width: { sm: `calc(100% - ${drawerWidth}px)` },
-                    ml: { sm: `${drawerWidth}px` },
+                    width: { md: `calc(100% - ${drawerWidth}px)` },
+                    ml: { md: `${drawerWidth}px` },
                 }}
             >
                 <Toolbar sx={{ backgroundColor: "#0ABB87" }}>
@@ -114,7 +114,7 @@ export default function AuthenticatedLayout(props) {
                         aria-label="open drawer"
                         edge="start"
                         onClick={handleDrawerToggle}
-                        sx={{ mr: 2, display: { sm: "none" } }}
+                        sx={{ mr: 2, display: { md: "none" } }}
                     >
                         <MenuIcon />
                     </IconButton>
@@ -186,7 +186,7 @@ export default function AuthenticatedLayout(props) {
             {/* Sidebar */}
             <Box
                 component="nav"
-                sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+                sx={{ width: { md: drawerWidth }, flexShrink: { md: 0 } }}
                 aria-label="mailbox folders"
             >
                 {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
@@ -199,7 +199,7 @@ export default function AuthenticatedLayout(props) {
                         keepMounted: true, // Better open performance on mobile.
                     }}
                     sx={{
-                        display: { xs: "block", sm: "none" },
+                        display: { xs: "block", md: "none" },
                         "& .MuiDrawer-paper": {
                             boxSizing: "border-box",
                             width: drawerWidth,
@@ -211,7 +211,7 @@ export default function AuthenticatedLayout(props) {
                 <Drawer
                     variant="permanent"
                     sx={{
-                        display: { xs: "none", sm: "block" },
+                        display: { xs: "none", md: "block" },
                         "& .MuiDrawer-paper": {
                             boxSizing: "border-box",
                             width: drawerWidth,
@@ -228,15 +228,15 @@ export default function AuthenticatedLayout(props) {
                 component="main"
                 sx={{
                     flexGrow: 1,
-                    width: { sm: `calc(100% - ${drawerWidth}px)` },
+                    width: { md: `calc(100% - ${drawerWidth}px)` },
                     backgroundColor: grey[100],
                 }}
-                className="min-h-screen flex flex-col"
+                className="min-h-screen flex flex-col overflow-auto"
             >
                 <Toolbar />
                 <Box sx={{ p: 3, height: "100%" }}>{children}</Box>
                 <Box component="footer" className="mt-auto p-3 bg-white">
-                    <p className="text-center sm:text-start">
+                    <p className="text-center md:text-start">
                         © FERCAP cPanel {new Date().getFullYear()}
                     </p>
                 </Box>

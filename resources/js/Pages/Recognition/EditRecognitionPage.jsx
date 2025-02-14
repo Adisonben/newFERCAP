@@ -59,7 +59,7 @@ const EditRecognitionPage = ({ resFormBack, recognition, rec_files, fullboardPro
             />
             <div>
                 <form onSubmit={submit}>
-                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
                         <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800 border">
                             <div className="p-6 text-gray-900 dark:text-gray-100">
                                 <div className="flex justify-between mb-4">

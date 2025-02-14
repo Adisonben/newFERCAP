@@ -4,8 +4,8 @@ import { Button } from "@mui/material";
 
 const statusConfig = {
     0: { label: "Disable", class: "bg-gray-100 text-gray-600" },
-    1: { label: "Active", class: "bg-green-100 text-green-600" },
-    2: { label: "Complete", class: "bg-blue-100 text-blue-600" },
+    1: { label: "Active", class: "bg-blue-100 text-blue-600" },
+    2: { label: "Complete", class: "bg-green-100 text-green-600" },
     3: { label: "Rreject", class: "bg-red-100 text-red-600" },
 };
 

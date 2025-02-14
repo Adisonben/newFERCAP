@@ -105,7 +105,7 @@ class SurveyController extends Controller
 
     public function availableSurvey()
     {
-        $surveys = Survey::with('simpRecognition', 'isSurveyor', 'isSurveyorTeam')
+        $surveys = Survey::where('status', 1)->with('simpRecognition', 'isSurveyor', 'isSurveyorTeam')
             ->whereDoesntHave('surveyTeam', function ($query) {
                 $query->where('user_id', Auth::user()->id);
         })->get(['survey_id', 'description', 'start_date', 'end_date', 'recognition_id', 'id'])->toArray();

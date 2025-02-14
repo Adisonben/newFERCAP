@@ -93,7 +93,9 @@ const FercapGroupPage = ({ resFormBack, fercapGroups, role_name }) => {
                                 />
                             </PermissionGuard>
                         </div>
-                        <GroupDataTable fercapGroups={fercapGroups} role_name={role_name} />
+                        <div className="overflow-x-auto">
+                            <GroupDataTable fercapGroups={fercapGroups} role_name={role_name} />
+                        </div>
                     </div>
                 </div>
             </div>

@@ -5,7 +5,7 @@ import RecognitionUploadFileModal from "./RecognitionUploadFileModal";
 import { recognitionFileTypes } from "@/Functions/MasterDatas";
 import DeleteModal from "@/Components/DeleteModal";
 
-const RecognitionFiles = ({ rec_id, rec_status }) => {
+const RecognitionFiles = ({ rec_id, toggleFetch }) => {
     const [files, setFiles] = useState([]);
     const [showUploadFilesModal, setShowUploadFilesModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -31,7 +31,7 @@ const RecognitionFiles = ({ rec_id, rec_status }) => {
 
     useEffect(() => {
         fetchFiles();
-    }, []);
+    }, [toggleFetch]);
 
     const handleDeleteShow = (RecFileId) => {
         setDeleteRecFileId(RecFileId);
@@ -64,7 +64,7 @@ const RecognitionFiles = ({ rec_id, rec_status }) => {
     return (
         <>
             <div className="p-6 text-gray-900 dark:text-gray-100">
-                <div className="flex justify-between mb-4">
+                {/* <div className="flex justify-between mb-4">
                     <p className="text-xl font-bold">Recognition Files</p>
                     <div>
                         {rec_status !== 0 && rec_status !== 3 && (
@@ -78,9 +78,9 @@ const RecognitionFiles = ({ rec_id, rec_status }) => {
                             </Button>
                         )}
                     </div>
-                </div>
+                </div> */}
                 <div className="overflow-y-auto max-h-[850px]">
-                    {recognitionFileTypes?.map((fileType) => (
+                    {recognitionFileTypes?.filter((type) => type.name !== "annual_progress_reports").map((fileType) => (
                         <div key={fileType.id}>
                             <div>
                                 <p className="font-bold">{fileType.label}</p>

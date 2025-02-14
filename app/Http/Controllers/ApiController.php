@@ -9,6 +9,7 @@ use App\Models\AppFercapGroupHasUser;
 use App\Models\AppProtocolType;
 use App\Models\AppRole;
 use App\Models\RecFile;
+use App\Models\Recognition;
 use App\Models\Survey;
 use App\Models\SurveyDiscussionComment;
 use App\Models\SurveyDiscussionFile;
@@ -131,7 +132,12 @@ class ApiController extends Controller
 
     public function getRecognitionFiles($rec_id)
     {
-        $rec_files = RecFile::where('recognition_id', $rec_id)->with('getFile')->get();
+        $rec_files = RecFile::where('recognition_id', $rec_id)->whereNot('file_type', 'annual_progress_reports')->with('getFile')->get();
+        return $rec_files;
+    }
+    public function getAnnualFiles($rec_id)
+    {
+        $rec_files = RecFile::where('recognition_id', $rec_id)->where('file_type', 'annual_progress_reports')->with('getFile')->get();
         return $rec_files;
     }
 
@@ -352,20 +358,60 @@ class ApiController extends Controller
             ]);
         }
     }
+
+    private function checkRecogStatus($recId) {
+        $recTarget = Recognition::find($recId);
+        if ($recTarget !== null) {
+            $allSurvey = Survey::where('recognition_id', $recTarget->id)->count();
+            $appSurvey = Survey::where('recognition_id', $recTarget->id)->where('status', 2)->count();
+            $recTarget->status = $allSurvey === $appSurvey ? 2 : 1;
+            $recTarget->save();
+        }
+    }
+
+    private function toggleSurveyStatus($surveyId) {
+        $surveyTarget = Survey::find($surveyId);
+        if ($surveyId && $surveyTarget !== null) {
+            $surveyFiles = SurveyFile::where('survey_id', $surveyTarget->id)->whereIn('file_type', ['report',  'action_plan', 'evaluation'])->where('status', 2)->count();
+            $surveyTarget->status = $surveyFiles === 3 ? 2 : 1;
+            $surveyTarget->save();
+        }
+        $this->checkRecogStatus($surveyTarget->recognition_id);
+    }
+
+    private function closeDiscussionRoom($roomtype, $surveyId) {
+        $rooms = SurveyDiscussionRoom::where('survey_id', $surveyId)->where('room_type', $roomtype)->get();
+        if ($rooms && count($rooms) > 0) {
+            foreach ($rooms as $room) {
+                $room->status = 0;
+                $room->save();
+            }
+        }
+    }
+
     public function approveSubmitDiscussionFile($id) {
         try {
             $file = SurveyFile::findOrFail($id);
             $file->status === 2 ? $file->status = 1 : $file->status = 2;
             $file->save();
 
+            try {
+                $this->closeDiscussionRoom($file->file_type, $file->survey_id);
+                $this->toggleSurveyStatus($file->survey_id);
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
+
+            $message = $file->status === 2 ? 'approved' : 'unapproved';
+
             return back()->with('resFormBack', [
-                'success' => 'The file was rejected successfully',
+                'success' => "The file was $message successfully",
                 'timestamp' => now()->toISOString()
             ]);
         } catch (\Throwable $th) {
             //throw $th;
             return back()->with('resFormBack', [
-                'success' => 'An error occurred while rejecting the file',
+                'success' => "An error occurred while change file's status",
                 'timestamp' => now()->toISOString()
             ]);
         }

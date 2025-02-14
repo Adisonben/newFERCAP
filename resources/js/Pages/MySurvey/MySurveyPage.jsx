@@ -68,7 +68,7 @@ const MySurveyPage = ({ resFormBack, surveys }) => {
                             </Button>
                         </div>
                     </div>
-                    <div>
+                    <div className="overflow-x-auto">
                         {showCalendar ? (
                             <MySurveyCalendar eventList={eventList} />
                         ) : (
