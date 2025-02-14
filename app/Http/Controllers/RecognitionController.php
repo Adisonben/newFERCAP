@@ -87,7 +87,7 @@ class RecognitionController extends Controller
                 Recognition::where('id', $newRecId)->delete();
             }
             return back()->with('resFormBack', [
-                'error' => 'An error occurred while creating the Recognition',
+                'error' => 'An error occurred while creating the Recognition' . $th->getMessage(),
                 'timestamp' => now()->toISOString()
             ]);
         }

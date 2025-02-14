@@ -34,6 +34,7 @@ const ProtocolForm = ({ data, setData, errors }) => {
                 <TextInput
                     id="protocol_board_review"
                     className="mt-1 block w-full"
+                    type="number"
                     value={data.protocol_board_review}
                     onChange={(e) =>
                         setData("protocol_board_review", e.target.value)
@@ -56,6 +57,7 @@ const ProtocolForm = ({ data, setData, errors }) => {
                 <TextInput
                     id="protocol_expedited_review"
                     className="mt-1 block w-full"
+                    type="number"
                     value={data.protocol_expedited_review}
                     onChange={(e) =>
                         setData("protocol_expedited_review", e.target.value)
@@ -78,6 +80,7 @@ const ProtocolForm = ({ data, setData, errors }) => {
                 <TextInput
                     id="protocol_board_meeting"
                     className="mt-1 block w-full"
+                    type="number"
                     value={data.protocol_board_meeting}
                     onChange={(e) =>
                         setData("protocol_board_meeting", e.target.value)

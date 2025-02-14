@@ -40,10 +40,10 @@ class RecognitionRequest extends FormRequest
             'secretary' => 'required|string|max:255',
             'secretary_email' => 'required|email|max:255',
             // protocol
-            'protocol_board_review' => 'required|string|max:255',
-            'protocol_expedited_review' => 'required|string|max:255',
-            'protocol_board_meeting' => 'required|string|max:255',
-            'avg_members_per_meeting' => 'required|string|min:1',
+            'protocol_board_review' => 'required|numeric|max:255',
+            'protocol_expedited_review' => 'required|numeric|max:255',
+            'protocol_board_meeting' => 'required|numeric|max:255',
+            'avg_members_per_meeting' => 'required|numeric|min:1',
             'ethical_challenges' => 'required|string',
             'common_type' => 'nullable|array',
             // Other
