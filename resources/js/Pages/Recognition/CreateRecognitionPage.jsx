@@ -35,10 +35,10 @@ const CreateRecognitionPage = ({ resFormBack }) => {
         secretary: "",
         secretary_email: "",
         // Protocols
-        protocol_board_review: "",
-        protocol_expedited_review: "",
-        protocol_board_meeting: "",
-        avg_members_per_meeting: "",
+        protocol_board_review: 0,
+        protocol_expedited_review: 0,
+        protocol_board_meeting: 0,
+        avg_members_per_meeting: 0,
         ethical_challenges: "",
         common_type: {
             full_board: {}, // store {id: number}
